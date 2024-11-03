@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-transition {
+    transition: background-color 0.5s ease, width 0.5s ease;
+    /* Geçiş süreleri ve efektleri */
+}
+
+body {
+    background-color: #F9FAFB;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-fall {
+    animation: fall 1s ease-out forwards;
+}
+
+.writing-mode-vertical {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    height: 100px;
+    text-align: end;
+}
+
+.clip-pentagon {
+    clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
+}
+
