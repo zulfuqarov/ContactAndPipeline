@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Context from "./ContextCrm/ContextCrm";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation ,Navigate } from "react-router-dom";
 import Pipeline from "./Pages/Pipeline";
 import Navbar from "./Components/Navbar";
 import { ToastContainer } from "react-toastify";
@@ -36,6 +36,8 @@ function App() {
             {hideNavbar ? null : <Navbar />}
             {hideNavbar ? null : <ContactDeleteModal />}
             <Routes>
+              <Route path="/" element={<Navigate to="/Dashboard" />} />
+
               <Route path="/Login" element={<Welcome />} />
               <Route path="/Dashboard" element={<DashBoard />} />
               <Route path="/Register" element={< Register />} />
