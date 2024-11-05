@@ -89,7 +89,7 @@ const ContextContact = ({ children }) => {
         company: data.company,
         department: data.department,
         position: data.position,
-        createdByUserId: 2,
+        createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
       });
       const newContact = {
         ...response.data,
@@ -113,7 +113,7 @@ const ContextContact = ({ children }) => {
         company: contact.company,
         department: contact.department,
         position: contact.position,
-        createdByUserId: 2,
+        createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
       });
       if (response.status === 200) {
         const updatedContacts = contactsData.map((item) =>
@@ -127,7 +127,7 @@ const ContextContact = ({ children }) => {
       console.error("Error updating contact:", error);
       toast.error(
         "Failed to update contact: " +
-          (error.response?.statusText || "Unknown error")
+        (error.response?.statusText || "Unknown error")
       );
     }
   };
@@ -260,13 +260,13 @@ const ContextContact = ({ children }) => {
       );
     });
 
-    if(!isDataValid){
+    if (!isDataValid) {
       toast.error("Please fill in all fields correctly and completely.");
       return;
     }
     axios
       .get(
-        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=2`
+        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=${JSON.parse(localStorage.getItem('userId')).value}`
       )
       .then((response) => {
         toast.success("Yuklendi");
@@ -316,7 +316,7 @@ const ContextContact = ({ children }) => {
     probability: 0,
     expectedClosingDate: "2024-11-02T16:16:58.716Z",
     stageId: "9d02a814-9b9a-4bcc-a065-8996390a6308",
-    userId: 2,
+    userId: JSON.parse(localStorage.getItem('userId'))?.value || null,
   };
   const addToLead = async (customerIds) => {
     if (customerIds.length === 0) {
@@ -338,7 +338,7 @@ const ContextContact = ({ children }) => {
     } catch (error) {
       toast.error(
         "An error occurred: " +
-          (error.response ? error.response.data.message : error.message)
+        (error.response ? error.response.data.message : error.message)
       );
       console.error(
         "Error:",
