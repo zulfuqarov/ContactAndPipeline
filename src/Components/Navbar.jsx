@@ -59,15 +59,7 @@ const Navbar = () => {
               >
                 Contacts
               </NavLink>
-              <NavLink
-                to="/Admin-Panel"
-                className={({ isActive }) =>
-                  `relative w-fit [font-family:'Inter-Regular',Helvetica] font-normal text-main-text-color text-base whitespace-nowrap px-4 py-2.5 rounded ${isActive ? "bg-[#ddeaff]" : ""
-                  }`
-                }
-              >
-                Admin panel
-              </NavLink>
+              
             </div>
           </div>
           {/* Hamburger Menu */}
@@ -121,15 +113,7 @@ const Navbar = () => {
             >
               Contacts
             </NavLink>
-            <NavLink
-              to="/Admin-Panel"
-              className={({ isActive }) =>
-                `relative w-fit [font-family:'Inter-Regular',Helvetica] font-normal text-main-text-color text-base whitespace-nowrap px-4 py-2.5 rounded ${isActive ? "bg-[#ddeaff]" : ""
-                }`
-              }
-            >
-              Admin panel
-            </NavLink>
+           
           </div>
         </div>
 
