@@ -22,9 +22,8 @@ const InputField = ({
     <input
       id={id}
       type={type}
-      className={`border w-full py-[.3rem] ps-2 focus:outline-none ${
-        errors[id] ? "border-red-500" : "border-gray-300"
-      }`}
+      className={`border w-full py-[.3rem] ps-2 focus:outline-none ${errors[id] ? "border-red-500" : "border-gray-300"
+        }`}
       placeholder={placeholder}
       {...register(id, { required, pattern })}
     />
@@ -49,7 +48,7 @@ const ContactCreateEditModal = () => {
     contactsData,
     deleteContact,
     isOpendeleteContact,
-    setIsOpendeleteContact
+    setIsOpendeleteContact,
   } = useContext(ContactContext);
 
   const {
@@ -63,12 +62,12 @@ const ContactCreateEditModal = () => {
 
   useEffect(() => {
     if (editContact) {
-      setValue('fullName', `${editContact.name} ${editContact.surname}`); 
-      setValue('email', editContact.email);
-      setValue('phone', editContact.phoneNumber);
-      setValue('company', editContact.company);
-      setValue('department', editContact.department);
-      setValue('position', editContact.position);
+      setValue("fullName", `${editContact.name} ${editContact.surname}`);
+      setValue("email", editContact.email);
+      setValue("phone", editContact.phoneNumber);
+      setValue("company", editContact.company);
+      setValue("department", editContact.department);
+      setValue("position", editContact.position);
     } else {
       reset();
     }
@@ -80,11 +79,11 @@ const ContactCreateEditModal = () => {
     (key) => watchedFields[key] !== (editContact?.[key] || "")
   );
   const firstLetter = editContact?.name.charAt(0).toUpperCase();
-  
+
   const onSubmit = (data) => {
-    const parts=data.fullName.trim().split(" ");
-    const firstName=parts[0];
-    const lastName=parts.slice(1).join(" ");
+    const parts = data.fullName.trim().split(" ");
+    const firstName = parts[0];
+    const lastName = parts.slice(1).join(" ");
     if (parts.length < 2) {
       toast.error("Please enter both first and last name.");
       return;
@@ -100,24 +99,17 @@ const ContactCreateEditModal = () => {
       position: data.position,
       ...data,
     };
-    const isNameExist = contactsData.some(
-      (contact) =>
-        `${contact.name} ${contact.surname}`=== data.fullName && contact.id !== newContact.id
-    );
+
     const isEmailExist = contactsData.some(
       (contact) =>
         contact.email === newContact.email && contact.id !== newContact.id
     );
-    
-    if (isNameExist) {
-      toast.error("This name already exists!");
-      return;
-    }
+
     if (isEmailExist) {
       toast.error("This email already exists!");
       return;
     }
-    
+
     if (editContact) {
       updateContact(newContact);
       toast.success("Contact updated successfully!");
@@ -127,70 +119,80 @@ const ContactCreateEditModal = () => {
       toast.success("Contact created successfully!");
     }
     reset();
-    setEditContact(null); 
+    setEditContact(null);
     setIsOpenCreateModal(false);
   };
-  
+
   const handleDelete = () => {
     if (editContact) {
-      setIsOpendeleteContact(true)
+      setIsOpendeleteContact(true);
       console.log(editContact);
     }
   };
   if (!isOpenCreateModal) return null;
   const handleDiscard = () => {
-    reset(); 
+    reset();
     setIsOpenCreateModal(false);
     setEditContact(null);
   };
   const formattedDate = editContact?.createdAt
-  ? new Intl.DateTimeFormat('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+    ? new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     }).format(new Date(editContact.createdAt))
-  : 'Date not available';
+    : "Date not available";
   return (
     <div className="fixed inset-0 z-50 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-[40%] p-6 relative">
         <div className="flex items-start">
           <div className="w-full">
-          {editContact ?  <div className="">
-            <div className={`${editContact.color} p-[2rem] rounded-[100%] w-[4.5rem] h-[4.5rem] flex items-center justify-center`}>
-              <p className="text-[2.3rem] font-semibold text-white">{firstLetter}</p>
-            </div>
-            <div className="flex items-center justify-between mt-3">
-              <div>
-                <p className="font-semibold text-[1.5rem]">{editContact.name}</p>
-                <p>{editContact.email}</p>
-              </div>
-              <div>
-                <p className="font-semibold text-[1.1rem] py-[.2rem]">Created By:</p>
-                <div>
-                  Amanda
+            {editContact ? (
+              <div className="">
+                <div
+                  className={`${editContact.color} p-[2rem] rounded-[100%] w-[4.5rem] h-[4.5rem] flex items-center justify-center`}
+                >
+                  <p className="text-[2.3rem] font-semibold text-white">
+                    {firstLetter}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between mt-3">
+                  <div>
+                    <p className="font-semibold text-[1.5rem]">
+                      {editContact.name}
+                    </p>
+                    <p>{editContact.email}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[1.1rem] py-[.2rem]">
+                      Created By:
+                    </p>
+                    <div>Amanda</div>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[1.1rem] py-[.2rem]">
+                      Date added:
+                    </p>
+                    <p>{formattedDate}</p>
+                  </div>
                 </div>
               </div>
+            ) : (
               <div>
-                <p className="font-semibold text-[1.1rem] py-[.2rem]">Date added:</p>
-                <p>{formattedDate}</p>
+                <p className="text-base font-semibold text-gray-900 text-[1.4rem]">
+                  {editContact ? "Edit contact" : "Create new contact"}
+                </p>
+                <p className="mt-1 text-[1.1rem] text-gray-500">
+                  Enter basic contact details to {editContact ? "edit" : "add"}{" "}
+                  a new customer.
+                </p>
               </div>
-            </div>
-            </div>
-            : <div>
-            <p className="text-base font-semibold text-gray-900 text-[1.4rem]">
-              {editContact ? "Edit contact" : "Create new contact"}
-            </p>
-            <p className="mt-1 text-[1.1rem] text-gray-500">
-              Enter basic contact details to {editContact ? "edit" : "add"} a
-              new customer.
-            </p>
-          </div>
-             }
-            
+            )}
+
             <button
               onClick={() => {
                 setIsOpenCreateModal(false);
-                setEditContact(null); 
+                setEditContact(null);
               }}
               className="absolute top-[1rem] right-[1rem] text-[1.7rem]"
             >
@@ -211,11 +213,18 @@ const ContactCreateEditModal = () => {
             register={register}
             errors={errors}
             required
-            validate={(value)=>{
-              const parts=value.trim().split(" ");
-              return parts.length>=2
+            validate={(value) => {
+              const parts = value.trim().split(" ");
+              const isValidName =
+                parts.length === 2 &&
+                parts.every((part) =>
+                  /^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/.test(part)
+                );
+              return isValidName;
             }}
-            patternErrorMsg={"Please enter both first and last name"}
+            patternErrorMsg={
+              "Please enter a valid first and last name (e.g., Sarah White)"
+            }
             placeholder="Sarah White"
           />
           <InputField
@@ -234,7 +243,7 @@ const ContactCreateEditModal = () => {
             register={register}
             errors={errors}
             required
-            pattern={/^\S+@\S+$/i}
+            pattern={/^[^\s@]+@[^\s@]+\.(com|net|org)$/i}
             patternErrorMsg="Please enter a valid email address."
             placeholder="e.g. example@gmail.com"
           />
@@ -254,7 +263,9 @@ const ContactCreateEditModal = () => {
             register={register}
             errors={errors}
             required
-            pattern={/^\+?\d{1,4}[\s-]?\d{1,3}[\s-]?\d{1,4}[\s-]?\d{1,4}$/}
+            pattern={
+              /^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/
+            }
             patternErrorMsg="Please enter a valid phone number."
             placeholder="e.g. (+994)70 211 45 32"
           />
@@ -288,9 +299,8 @@ const ContactCreateEditModal = () => {
             </button>
             <button
               onClick={handleSubmit(onSubmit)}
-              className={`bg-blue-500 text-white rounded-md px-4 py-2 ${
-                !isFormChanged ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`bg-blue-500 text-white rounded-md px-4 py-2 ${!isFormChanged ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               disabled={!isFormChanged}
             >
               {editContact ? "Save" : "Create"}

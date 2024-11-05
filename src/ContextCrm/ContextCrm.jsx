@@ -56,14 +56,15 @@ const Context = ({ children }) => {
   };
   const [editStage, seteditStage] = useState();
   const handleEditStage = async (stage) => {
-    const newStageLocal = JSON.parse(localStorage.getItem("newStage")) || [];
-    newStageLocal.find((localStage) => localStage.id === stage.id).name = stage.name;
-    localStorage.setItem("newStage", JSON.stringify(newStageLocal))
+
     try {
       const response = await axios.put(`${apiUrl}/api/Stages/${stage.id}`, {
         name: stage.name,
         userId: stage.userId,
       });
+      const newStageLocal = JSON.parse(localStorage.getItem("newStage")) || [];
+      newStageLocal.find((localStage) => localStage.id === stage.id).name = stage.name;
+      localStorage.setItem("newStage", JSON.stringify(newStageLocal))
       seteditStage(stage);
       setsuccesPopaps(true)
     } catch (error) {

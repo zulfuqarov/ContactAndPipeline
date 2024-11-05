@@ -85,20 +85,18 @@ const DashBoard = () => {
 
     }, [])
     return (
-        <div className='pb-[60px]'>
+        <div className='pb-[60px] fonstDashBoard'>
 
             <DashBoardNav />
 
             <Cards Probablity={Probablity} InformationWonLost={InformationWonLost} />
 
 
-
-            <div className='flex justify-evenly items-center'>
+            <div className='flex justify-evenly items-start  pt-[30px]'>
                 <Topproducts topProduct={topProduct} />
                 <Statuscount dataset={dataset} />
-            </div>
-            <div className='flex  justify-center items-center'>
                 <TopDearles WonStageDealers={WonStageDealers} />
+
             </div>
         </div>
     )

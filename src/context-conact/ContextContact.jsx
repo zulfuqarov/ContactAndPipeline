@@ -20,9 +20,9 @@ const ContextContact = ({ children }) => {
   const [isOpenUploadEditModal, setIsOpenUploadEditModal] = useState(false);
   const [uploadContacts, setUploadContacts] = useState(null);
   const [editUploadContact, setEditUploadContact] = useState([]);
-
   const [loading, setLoading] = useState(false);
-  const [newTransferToCustomersState, setnewTransferToCustomersState] = useState();
+  const [newTransferToCustomersState, setnewTransferToCustomersState] =
+    useState();
   useEffect(() => {
     const storedContacts = localStorage.getItem("contacts");
     if (storedContacts) {
@@ -38,7 +38,11 @@ const ContextContact = ({ children }) => {
         setContactsData(contacts);
         localStorage.setItem("contacts", JSON.stringify(contacts));
       } catch (error) {
-        console.error('Xəta məlumatı:', error.response.status, error.response.data);
+        console.error(
+          "Xəta məlumatı:",
+          error.response.status,
+          error.response.data
+        );
       }
     };
     getContacts();
@@ -85,7 +89,7 @@ const ContextContact = ({ children }) => {
         company: data.company,
         department: data.department,
         position: data.position,
-        createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
+        createdByUserId: 2,
       });
       const newContact = {
         ...response.data,
@@ -109,7 +113,7 @@ const ContextContact = ({ children }) => {
         company: contact.company,
         department: contact.department,
         position: contact.position,
-        createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
+        createdByUserId: 2,
       });
       if (response.status === 200) {
         const updatedContacts = contactsData.map((item) =>
@@ -159,7 +163,6 @@ const ContextContact = ({ children }) => {
       );
       setContactsData(filteredContacts);
 
-      // Yenilənmiş əlaqələri localStorage-da saxlayın
       localStorage.setItem("contacts", JSON.stringify(filteredContacts));
     } catch (error) {
       console.error("Error deleting contact:", error);
@@ -186,7 +189,7 @@ const ContextContact = ({ children }) => {
           },
         })
         .then((response) => {
-          console.log("Fayl uğurla yükləndi:", response.data);
+          console.log("File uploaded successfully:", response.data);
 
           setIsOpenUploadModal(false);
           setIsOpenUploadFaly(true);
@@ -194,7 +197,7 @@ const ContextContact = ({ children }) => {
           navigate("/Upload-File");
         })
         .catch((error) => {
-          console.error("Fayl yükləmədə xəta baş verdi", error);
+          console.error("An error occurred while uploading the file", error);
         });
     }
   };
@@ -231,13 +234,39 @@ const ContextContact = ({ children }) => {
       .then((response) => {
         console.log(response);
       })
-      .catch((error) => console.error("xetaaaaaaa", error));
+      .catch((error) => console.error("Error:", error));
   };
 
   const newTransferToCustomers = async () => {
+    const isDataValid = uploadContacts.every((contact) => {
+      const isEmailValid = /^[^\s@]+@[^\s@]+\.(com|net|org)$/i.test(
+        contact.email
+      );
+      const isPhoneValid =
+        /^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/.test(
+          contact.phoneNumber
+        );
+      return (
+        contact.company &&
+        contact.department &&
+        contact.position &&
+        isEmailValid &&
+        isPhoneValid &&
+        contact.name.trim() !== "" &&
+        contact.surname.trim() !== "" &&
+        contact.company.trim() !== "" &&
+        contact.department.trim() !== "" &&
+        contact.p
+      );
+    });
+
+    if(!isDataValid){
+      toast.error("Please fill in all fields correctly and completely.");
+      return;
+    }
     axios
       .get(
-        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=${JSON.parse(localStorage.getItem('userId')).value}`
+        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=2`
       )
       .then((response) => {
         toast.success("Yuklendi");
@@ -287,28 +316,34 @@ const ContextContact = ({ children }) => {
     probability: 0,
     expectedClosingDate: "2024-11-02T16:16:58.716Z",
     stageId: "9d02a814-9b9a-4bcc-a065-8996390a6308",
-    userId: JSON.parse(localStorage.getItem('userId'))?.value || null
+    userId: 2,
   };
   const addToLead = async (customerIds) => {
     if (customerIds.length === 0) {
-      toast.info('Heç bir müştəri seçilməmişdir.');
-      return; 
+      toast.info("No customers have been selected.");
+      return;
     }
-    const baseUrl = 'http://141.98.112.193:5000/api/Customers/AddToLead';
-    const queryParams = customerIds.map(id => `Ids=${id}`).join('&');
+    const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
+    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&");
     const url = `${baseUrl}?${queryParams}`;
     try {
       const response = await axios.post(url, postData, {
         headers: {
-          'Content-Type': 'application/json-patch+json',
-          'Accept': 'application/json' 
-        }
+          "Content-Type": "application/json-patch+json",
+          Accept: "application/json",
+        },
       });
-      toast.success('Müştəri uğurla əlavə edildi!');
-      console.log('Response:', response.data);
+      toast.success("Customer successfully added!");
+      console.log("Response:", response.data);
     } catch (error) {
-      toast.error('Xəta baş verdi: ' + (error.response ? error.response.data.message : error.message));
-      console.error('Xəta:', error.response ? error.response.data : error.message); 
+      toast.error(
+        "An error occurred: " +
+          (error.response ? error.response.data.message : error.message)
+      );
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
   return (

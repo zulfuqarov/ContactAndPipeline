@@ -40,7 +40,7 @@ const UploadFile = () => {
   };
 
   const handleEdit = (contact) => {
-    console.log(contact);
+
     const updateEditFormData = {
       id: contact.id,
       name: contact.name,

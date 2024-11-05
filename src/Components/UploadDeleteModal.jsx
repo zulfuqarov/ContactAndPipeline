@@ -5,8 +5,6 @@ import { toast } from "react-toastify";
 const UploadDeleteModal = ({uploadContact}) => {
   const { isUploadDeleteModal, setIsUploadDeleteModal ,deleteUploadContact} =
     useContext(ContactContext);
-console.log(uploadContact.id);
-
     const handleDelete = () => {
       if (uploadContact) {
         deleteUploadContact(uploadContact.id);
@@ -18,7 +16,7 @@ console.log(uploadContact.id);
     };
   return (
     isUploadDeleteModal && (
-      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-[100200]">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-[10020000]">
         <div className="bg-white py-10 rounded-lg shadow-lg w-[21rem] space-y-4 text-center">
           <div className="mx-auto w-3/4">
             <div className="w-full h-16  flex items-center justify-center mb-4">

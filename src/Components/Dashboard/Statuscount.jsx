@@ -9,14 +9,13 @@ const Statuscount = ({ dataset }) => {
 
 
     useEffect(() => {
-        const w = 300,
-            h = 300;
+        const w = 168,
+            h = 168;
 
-        const outerRadiusArc = w / 2;
-        const innerRadiusArc = 100;
+        const outerRadiusArc = w / 2; // Yarıçap
+        const innerRadiusArc = 55; // İç yarıçap (orta kısmın boş kalması için)
 
-
-        d3.select("#chart").select("svg").remove();
+        d3.select("#chart").select("svg").remove(); // Var olan SVG'yi temizle
 
         const svg = d3
             .select("#chart")
@@ -24,7 +23,7 @@ const Statuscount = ({ dataset }) => {
             .attr("width", w)
             .attr("height", h)
             .append("g")
-            .attr("transform", `translate(${w / 2}, ${h / 2})`);
+            .attr("transform", `translate(${w / 2}, ${h / 2})`); // Merkezi yerleştir
 
         const pie = d3.pie().value(d => d.percentage).sort(null);
         const arc = d3.arc().innerRadius(innerRadiusArc).outerRadius(outerRadiusArc);
@@ -68,24 +67,25 @@ const Statuscount = ({ dataset }) => {
                     });
             });
 
+        // Merkezdeki ana metni ekleyin
         svg
             .append("text")
             .attr("text-anchor", "middle")
             .attr("x", 0)
-            .attr("y", 0)
-            .style("font-size", "30px")
+            .attr("y", -20) // Yukarıya kaydırarak daha uyumlu yerleştir
+            .style("font-size", "18px") // Metin boyutunu biraz küçült
+            .style("font-weight", "bold")
             .style("fill", "#000");
 
+        // Alt metni ekleyin (daha küçük bir yazı)
         svg
             .append("text")
             .attr("text-anchor", "middle")
             .attr("x", 0)
-            .attr("y", 30)
-            .style("font-size", "15px")
+            .attr("y", 20) // Bu metin, biraz aşağıda yer alacak
+            .style("font-size", "12px") // Alt metnin boyutunu küçült
             .style("fill", "#555");
-
     }, [dataset]);
-
     const getColorFunc = (key) => {
         switch (key) {
             case "Won":
@@ -104,32 +104,35 @@ const Statuscount = ({ dataset }) => {
     };
 
     return (
-        <div className=" w-[780px] bg-white p-[30px]">
-            <div className="pb-[40px]">
-                <p className="text-[24px] font-bold">Status count</p>
+        <div className=" w-[458px] h-[286px] bg-white flex flex-col justify-evenly items-center p-[10px] border">
+            <div className="w-[418px]">
+                <p className="text-[22px] font-medium">Status count</p>
             </div>
-            <div className="flex justify-between items-center">
-                <div className=" ">
-                    <div id="chart" className="chart-container"></div>
-                </div>
-                <div className="w-[350px] ">
-                    <div className="space-y-2">
-                        {
-                            dataset &&
-                            dataset.map((oneMap, index) => (
-                                <div key={index} className="h-[40px] flex justify-between items-center text-gray-700">
-                                    <div className="relative pl-6">
-                                        <span className={`absolute  left-0 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5  rounded-full
-                                            bg-[${getColorFunc(oneMap.stageName)}]
-                                            `}></span>
-                                        <span className="text-[24px] font-normal">{oneMap.stageName}</span>
-                                    </div>
-                                    <p className="text-[#7C838B] text-[24px]">{oneMap.percentage}%</p>
-                                </div>
-                            ))
-                        }
+            <div className="w-[418px]">
+                <div className="flex justify-between items-center">
+                    <div className="">
+                        <div id="chart" className="chart-container"></div>
                     </div>
 
+                    <div className="w-[210px] ">
+                        <div className="space-y-2">
+                            {
+                                dataset &&
+                                dataset.map((oneMap, index) => (
+                                    <div key={index} className="h-[25px] flex justify-between items-center text-gray-700">
+                                        <div className="relative pl-6">
+                                            <span className={`absolute  left-0 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5  rounded-full
+                                            bg-[${getColorFunc(oneMap.stageName)}]
+                                            `}></span>
+                                            <span className="text-[17px] font-normal">{oneMap.stageName}</span>
+                                        </div>
+                                        <p className="text-[#7C838B] text-[16px]">{oneMap.percentage}%</p>
+                                    </div>
+                                ))
+                            }
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

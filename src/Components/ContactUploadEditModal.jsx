@@ -46,6 +46,7 @@ const ContactUploadEditModal = () => {
     updateUploadContact,
     setUploadContacts,
     contactsData,
+    setIsUploadDeleteModal
   } = useContext(ContactContext);
 
   const {
@@ -59,10 +60,12 @@ const ContactUploadEditModal = () => {
 
   useEffect(() => {
     if (editUploadContact) {
-      console.log(editUploadContact);
-      Object.keys(editUploadContact).forEach((key) => {
-        setValue(key, editUploadContact[key]);
-      });
+      setValue("fullName", `${editUploadContact.name} ${editUploadContact.surname}`);
+      setValue("email", editUploadContact.email);
+      setValue("phone", editUploadContact.phoneNumber);
+      setValue("company", editUploadContact.company);
+      setValue("department", editUploadContact.department);
+      setValue("position", editUploadContact.position);
     } else {
       reset();
     }
@@ -84,15 +87,15 @@ const ContactUploadEditModal = () => {
     );
     const isNameExist = contactsData.some(
       (contact) =>
-        contact.name === newUpload.name && contact.id !== newUpload.id
+        `${contact.name} ${contact.surname}` === newUpload.fullName && contact.id !== newUpload.id
     );
     const isEmailExist = contactsData.some(
       (contact) =>
         contact.email === newUpload.email && contact.id !== newUpload.id
     );
-
-    if (isNameExist) {
-      toast.error("This name already exists in another contact!");
+    const parts=data.fullName.trim().split(" ");
+    if(parts.length<2){
+      toast.error("Please enter both first and last name.");
       return;
     }
 
@@ -105,7 +108,6 @@ const ContactUploadEditModal = () => {
       toast.success("Upload updated successfully!");
       setUploadContacts(updatedContacts);
       setIsOpenUploadEditModal(false);
-      console.info();
     }
 
     reset();
@@ -151,6 +153,9 @@ const ContactUploadEditModal = () => {
             errors={errors}
             required
             placeholder="Sarah White"
+            pattern={/^[A-Za-z]+(?:[ '-][A-Za-z]+)*\s[A-Za-z]+(?:[ '-][A-Za-z]+)*$/}
+            patternErrorMsg="Please enter both first and last name."
+          
           />
              <InputField
             id="company"
@@ -168,7 +173,7 @@ const ContactUploadEditModal = () => {
             register={register}
             errors={errors}
             required
-            pattern={/^\S+@\S+$/i}
+            pattern={/^[^\s@]+@[^\s@]+\.(com|net|org)$/i}
             patternErrorMsg="Please enter a valid email address."
             placeholder="e.g. example@gmail.com"
           />
@@ -189,7 +194,7 @@ const ContactUploadEditModal = () => {
             register={register}
             errors={errors}
             required
-            pattern={/^\+?\d{1,4}[\s-]?\d{1,3}[\s-]?\d{1,4}[\s-]?\d{1,4}$/}
+            pattern={/^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/}
             patternErrorMsg="Please enter a valid phone number."
             placeholder="e.g. (+994)70 211 45 32"
           />
@@ -206,13 +211,13 @@ const ContactUploadEditModal = () => {
         <div className="flex justify-between items-center w-full">
           <div>
             {editUploadContact && (
-              <button className="bg-red-500 text-white rounded-md px-4 py-2">
+              <button onClick={() => setIsUploadDeleteModal(true)} className="bg-red-500 text-white rounded-md px-4 py-2">
                 Delete
               </button>
             )}
           </div>
           <div className="flex space-x-2">
-            <button className="bg-gray-400 text-white rounded-md px-4 py-2">
+            <button onClick={()=>setIsOpenUploadEditModal(false)} className="bg-gray-400 text-white rounded-md px-4 py-2">
               Discard
             </button>
             <button
