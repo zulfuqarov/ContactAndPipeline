@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 // ELxan yazdi bura
+// Commit part 2  
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <App />
