@@ -57,7 +57,9 @@ const Contacts = () => {
   const toggleMenuSort = () => setIsOpenSort((prev) => !prev);
   const closeMenuSort = () => setIsOpenSort(false);
 
-  
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   const handleSortChange = (direction) => {
     const sortedContacts = [...contactsData].sort((a, b) => {
       if (direction === "newest") {
@@ -66,9 +68,7 @@ const Contacts = () => {
         return new Date(a.createdAt) - new Date(b.createdAt);
       }
     });
-    const handleSearchChange = (e) => {
-      setSearchTerm(e.target.value);
-    };
+
     setSortContacs(sortedContacts);
     closeMenuSort();
   };
