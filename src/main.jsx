@@ -6,6 +6,7 @@ import "./index.css";
 // ELxan yazdi bura
 // Commit part 2  
 // commit part 3
+// commit part 4
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <App />
