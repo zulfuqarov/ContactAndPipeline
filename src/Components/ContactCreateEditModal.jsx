@@ -49,6 +49,7 @@ const ContactCreateEditModal = () => {
     deleteContact,
     isOpendeleteContact,
     setIsOpendeleteContact,
+    setContactsData
   } = useContext(ContactContext);
 
   const {

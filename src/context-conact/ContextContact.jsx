@@ -12,6 +12,7 @@ const ContextContact = ({ children }) => {
   const [createContactSuccs, setCreateContactSuccs] = useState(null);
   const [isOpendeleteContact, setIsOpendeleteContact] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
+console.log(contactsData );
 
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [isUploadDeleteModal, setIsUploadDeleteModal] = useState(false);
@@ -21,6 +22,8 @@ const ContextContact = ({ children }) => {
   const [uploadContacts, setUploadContacts] = useState(null);
   const [editUploadContact, setEditUploadContact] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log(selectedContacts);
+  
   const [newTransferToCustomersState, setnewTransferToCustomersState] =
     useState();
   useEffect(() => {
@@ -91,6 +94,8 @@ const ContextContact = ({ children }) => {
         position: data.position,
         createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
       });
+      console.log(response.data);
+      
       const newContact = {
         ...response.data,
         color: getRandomColor(),
