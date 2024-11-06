@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import "./index.css";
 // ELxan yazdi bura
 // Commit part 2  
+// commit part 3
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <App />
