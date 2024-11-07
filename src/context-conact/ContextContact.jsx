@@ -12,7 +12,6 @@ const ContextContact = ({ children }) => {
   const [createContactSuccs, setCreateContactSuccs] = useState(null);
   const [isOpendeleteContact, setIsOpendeleteContact] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
-console.log(contactsData );
 
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [isUploadDeleteModal, setIsUploadDeleteModal] = useState(false);
@@ -329,13 +328,14 @@ console.log(contactsData );
       return;
     }
     const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
-    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&");
+    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&") + "&userid=2"; 
     const url = `${baseUrl}?${queryParams}`;
+    
     try {
-      const response = await axios.post(url, postData, {
+      const response = await axios.post(url, {}, { 
         headers: {
+          "Accept": "*/*", 
           "Content-Type": "application/json-patch+json",
-          Accept: "application/json",
         },
       });
       toast.success("Customer successfully added!");
@@ -350,7 +350,7 @@ console.log(contactsData );
         error.response ? error.response.data : error.message
       );
     }
-  };
+  }
   return (
     <ContactContext.Provider
       value={{
