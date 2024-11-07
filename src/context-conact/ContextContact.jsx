@@ -22,7 +22,7 @@ const ContextContact = ({ children }) => {
   const [editUploadContact, setEditUploadContact] = useState([]);
   const [loading, setLoading] = useState(false);
   console.log(selectedContacts);
-  
+
   const [newTransferToCustomersState, setnewTransferToCustomersState] =
     useState();
   useEffect(() => {
@@ -94,7 +94,7 @@ const ContextContact = ({ children }) => {
         createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
       });
       console.log(response.data);
-      
+
       const newContact = {
         ...response.data,
         color: getRandomColor(),
@@ -107,7 +107,7 @@ const ContextContact = ({ children }) => {
   };
   const updateContact = async (contact) => {
     try {
-      const url = `${newApiUrl}Post/CustomerD`; 
+      const url = `${newApiUrl}Post/CustomerD`;
       const response = await axios.put(url, {
         id: contact.id,
         name: contact.name,
@@ -322,24 +322,26 @@ const ContextContact = ({ children }) => {
     stageId: "9d02a814-9b9a-4bcc-a065-8996390a6308",
     userId: JSON.parse(localStorage.getItem('userId'))?.value || null,
   };
+  const [addLeadsToPipeline, setaddLeadsToPipeline] = useState([])
   const addToLead = async (customerIds) => {
     if (customerIds.length === 0) {
       toast.info("No customers have been selected.");
       return;
     }
     const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
-    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&") + "&userid=2"; 
+    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&") + `&userid=${JSON.parse(localStorage.getItem('userId')).value}`;
     const url = `${baseUrl}?${queryParams}`;
-    
+
     try {
-      const response = await axios.post(url, {}, { 
+      const response = await axios.post(url, {}, {
         headers: {
-          "Accept": "*/*", 
+          "Accept": "*/*",
           "Content-Type": "application/json-patch+json",
         },
       });
       toast.success("Customer successfully added!");
       console.log("Response:", response.data);
+      setaddLeadsToPipeline([...addLeadsToPipeline, ...customerIds])
     } catch (error) {
       toast.error(
         "An error occurred: " +
@@ -392,6 +394,10 @@ const ContextContact = ({ children }) => {
         setUploadContacts,
         setIsUploadDeleteModal,
         isUploadDeleteModal,
+
+
+        // addLeadsToPipeline
+        addLeadsToPipeline
       }}
     >
       {children}

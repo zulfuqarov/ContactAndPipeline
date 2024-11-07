@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ContextUserData } from "./ContextUser";
+import { ContactContext } from "../context-conact/ContextContact";
 export const ContextCrm = createContext();
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -9,6 +10,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const Context = ({ children }) => {
 
   const { userIdToken } = useContext(ContextUserData)
+  const { addLeadsToPipeline } = useContext(ContactContext)
 
   const [succesPopaps, setsuccesPopaps] = useState(false)
 
@@ -208,7 +210,7 @@ const Context = ({ children }) => {
     if (userIdToken.token !== null && userIdToken.userId !== null) {
       getLeads();
     }
-  }, [newLeads, changeLeadsStage, userIdToken]);
+  }, [newLeads, changeLeadsStage, userIdToken, addLeadsToPipeline]);
 
 
 
