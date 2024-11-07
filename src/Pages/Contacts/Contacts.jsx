@@ -182,15 +182,15 @@ const Contacts = () => {
                       role="menuitem"
                       onClick={() => handleSortChange("oldest")}
                     >
-                      Newest to Oldest
+                      Oldest to Newest
                     </a>
                     <a
                       href="#"
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
                       role="menuitem"
                       onClick={() => handleSortChange("newest")}
-                    >
-                      Oldest to Newest
+                    > 
+                    Newest to Oldest
                     </a>
                   </div>
                 </div>

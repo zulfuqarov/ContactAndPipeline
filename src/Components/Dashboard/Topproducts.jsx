@@ -11,7 +11,7 @@ const Topproducts = ({ topProduct }) => {
     }, [topProduct]);
 
     return (
-        <div className="w-[440px] flex flex-col justify-evenly items-center bg-white min-h-[286px] border">
+        <div className="w-[460px] flex flex-col justify-evenly items-center bg-white min-h-[330px] border">
             <p className='font-medium w-[410px] text-left text-[22px] '>Top products</p>
 
             <div className='w-[410px] flex flex-col  space-y-4 '>
@@ -26,7 +26,7 @@ const Topproducts = ({ topProduct }) => {
                                 className="flex justify-between items-center "
                             >
 
-                                <p className="text-[16px] text-[#031225]">{product.productName}</p>
+                                <p className="text-[14px] text-[#031225]">{product.productName}</p>
 
                                 <div className="w-[304px]">
                                     <div className='h-[23px] rounded bg-[#6A8BF7] transition-all duration-300 ease-in-out'
@@ -39,7 +39,7 @@ const Topproducts = ({ topProduct }) => {
                         )
                     })}
                 <div className='w-full'>
-                    <div className='flex justify-between items-center text-[12px] float-end w-[304px] text-[#7C838B]'>
+                    <div className='flex justify-between items-center text-[13px] float-end w-[304px] text-[#7C838B]'>
                         <span>0%</span>
                         <span>10%</span>
                         <span>25%</span>

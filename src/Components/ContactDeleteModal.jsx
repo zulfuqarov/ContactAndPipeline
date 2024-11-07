@@ -28,10 +28,10 @@ const ContactDeleteModal = () => {
             <h3 className="text-[1.4rem] font-semibold my-2 pt-3">
               Are you sure you want to delete this contact?
             </h3>
-            <p className="text-gray-600 text-center text-[1.1rem]">
+            <p className="text-gray-600 text-center text-[1.1rem] w-[15rem] overflow-auto">
               {editContact?editContact.name:"Sarah"}
             </p>
-            <p className="text-gray-600 text-center text-[1.1rem]">
+            <p className="text-gray-600 text-center text-[1.1rem] w-[15rem] overflow-auto">
             {editContact?editContact.email:"sarah@gmail.com"}
             </p>
             <div className="flex items-center gap-2">

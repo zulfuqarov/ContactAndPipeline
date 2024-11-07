@@ -157,7 +157,7 @@ const ContactCreateEditModal = () => {
                   </p>
                 </div>
                 <div className="flex items-center justify-between mt-3">
-                  <div>
+                  <div className="w-[15rem] overflow-auto">
                     <p className="font-semibold text-[1.5rem]">
                       {editContact.name}
                     </p>

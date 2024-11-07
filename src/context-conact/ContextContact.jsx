@@ -108,7 +108,7 @@ console.log(contactsData );
   };
   const updateContact = async (contact) => {
     try {
-      const url = `${newApiUrl}Post/CustomerD`; // Yeniləmə endpoint-i
+      const url = `${newApiUrl}Post/CustomerD`; 
       const response = await axios.put(url, {
         id: contact.id,
         name: contact.name,
