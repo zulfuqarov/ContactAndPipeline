@@ -19,11 +19,13 @@ const ContextUser = ({ children }) => {
                 ...data,
                 imageURL: "https://backloggd-s3.b-cdn.net/1jpmjev5av8p0u145lhv1u2dtghf"
             });
-            console.log(response.data)
+            toast.success('Registration Successful, Please Login')
             navigate('/Login')
         } catch (error) {
             console.log(error)
+            toast.error(`${error.response.data[""][1]}`)
         }
+        
     }
 
     const [userIdToken, setuserIdToken] = useState({

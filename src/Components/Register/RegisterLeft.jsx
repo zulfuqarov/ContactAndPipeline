@@ -37,8 +37,10 @@ const RegisterLeft = () => {
         }
 
         // Phone validasyonu 
-        if (!registerInput.phone) {
-            newErrors.phone = 'Please enter a valid phone number';
+        const azerbaijanPhoneRegex = /^\+994(50|55|70|77|050|055|070|077)\d{7}$/;
+
+        if (!registerInput.phone || !azerbaijanPhoneRegex.test(registerInput.phone)) {
+            newErrors.phone = 'Please enter a valid Azerbaijan phone number';
         }
 
         // surname validasyonu: En az 3 karakter
@@ -114,7 +116,7 @@ const RegisterLeft = () => {
                             name='phone'
                             onChange={handleChangeInput}
                             value={registerInput.phone || ''}
-                            type="number"
+                            type="tel"
                             className={`w-[350px] h-[44px] px-4 py-2 gap-2 rounded border     focus:outline-none ${registerInput.phone ? error.phone ? 'border-red-500' : 'border-blue-500' : 'border-[#D2D2D5]'}`} placeholder='+994'
                         />
                         {
