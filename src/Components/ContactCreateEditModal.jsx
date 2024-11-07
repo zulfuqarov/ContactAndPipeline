@@ -113,7 +113,6 @@ const ContactCreateEditModal = () => {
 
     if (editContact) {
       updateContact(newContact);
-      toast.success("Contact updated successfully!");
     } else {
       addContact(newContact);
       setCreateContactSuccs(true);
