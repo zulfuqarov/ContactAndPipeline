@@ -11,7 +11,6 @@ const ContactDeleteModal = () => {
     const handleDelete = () => {
       if (editContact) {
         deleteContact(editContact.id);
-        toast.success("Contact deleted successfully!");
         setEditContact(null); 
         setIsOpendeleteContact(false)
         setIsOpenCreateModal(false);
@@ -33,7 +32,7 @@ const ContactDeleteModal = () => {
               {editContact?editContact.name:"Sarah"}
             </p>
             <p className="text-gray-600 text-center text-[1.1rem]">
-              sarah@gmail.com
+            {editContact?editContact.email:"sarah@gmail.com"}
             </p>
             <div className="flex items-center gap-2">
               <button

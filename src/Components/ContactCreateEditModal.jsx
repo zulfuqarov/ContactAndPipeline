@@ -127,7 +127,6 @@ const ContactCreateEditModal = () => {
   const handleDelete = () => {
     if (editContact) {
       setIsOpendeleteContact(true);
-      console.log(editContact);
     }
   };
   if (!isOpenCreateModal) return null;

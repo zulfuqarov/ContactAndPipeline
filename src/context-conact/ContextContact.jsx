@@ -167,7 +167,7 @@ console.log(contactsData );
         (contact) => contact.id !== contactId
       );
       setContactsData(filteredContacts);
-
+      toast.success("Contact deleted successfully!");
       localStorage.setItem("contacts", JSON.stringify(filteredContacts));
     } catch (error) {
       console.error("Error deleting contact:", error);
