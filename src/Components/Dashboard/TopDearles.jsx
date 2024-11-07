@@ -10,7 +10,7 @@ const TopDearles = ({ WonStageDealers }) => {
     }, [WonStageDealers]);
 
     return (
-        <div className='w-[420px] flex flex-col justify-evenly items-center min-h-[286px] bg-white   border'>
+        <div className='w-[460px] flex flex-col justify-evenly items-center min-h-[330px] bg-white   border'>
             <p className='text-[22px] w-[360px] font-medium'>Top dealers</p>
 
             <div className='w-[360px]'>
@@ -22,10 +22,10 @@ const TopDearles = ({ WonStageDealers }) => {
                         return (
                             <div className='pb-[25px]' key={index}>
                                 <div className='flex justify-between items-center pb-[8px]'>
-                                    <p className='font-medium '>{oneMap.userName} {oneMap.userSurname}</p>
-                                    <span className='text-[#7C838B] '>{oneMap.percentage}%</span>
+                                    <p className='font-medium text-[15px] '>{oneMap.userName} {oneMap.userSurname}</p>
+                                    <span className='text-[#7C838B] text-[15px]'>{oneMap.percentage}%</span>
                                 </div>
-                                <div className="w-full h-[9px] bg-[#CDE7FF] rounded-full">
+                                <div className="w-full h-[8px]  bg-[#CDE7FF] rounded-full">
                                     <div
                                         className={`h-full bg-[#006AFF] rounded-full transition-all duration-300`}
                                         style={{ width: `${width}%` }}

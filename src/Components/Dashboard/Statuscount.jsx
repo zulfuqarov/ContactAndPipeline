@@ -13,7 +13,7 @@ const Statuscount = ({ dataset }) => {
             h = 168;
 
         const outerRadiusArc = w / 2; // Yarıçap
-        const innerRadiusArc = 55; // İç yarıçap (orta kısmın boş kalması için)
+        const innerRadiusArc = 0; // İç yarıçap (orta kısmın boş kalması için)
 
         d3.select("#chart").select("svg").remove(); // Var olan SVG'yi temizle
 
@@ -104,7 +104,7 @@ const Statuscount = ({ dataset }) => {
     };
 
     return (
-        <div className=" w-[458px] h-[286px] bg-white flex flex-col justify-evenly items-center p-[10px] border">
+        <div className=" w-[460px] min-h-[330px] bg-white flex flex-col justify-evenly items-center p-[10px] border">
             <div className="w-[418px]">
                 <p className="text-[22px] font-medium">Status count</p>
             </div>
@@ -124,9 +124,9 @@ const Statuscount = ({ dataset }) => {
                                             <span className={`absolute  left-0 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5  rounded-full
                                             bg-[${getColorFunc(oneMap.stageName)}]
                                             `}></span>
-                                            <span className="text-[17px] font-normal">{oneMap.stageName}</span>
+                                            <span className="text-[15px] font-normal">{oneMap.stageName}</span>
                                         </div>
-                                        <p className="text-[#7C838B] text-[16px]">{oneMap.percentage}%</p>
+                                        <p className="text-[#7C838B] text-[14px]">{oneMap.percentage}%</p>
                                     </div>
                                 ))
                             }
