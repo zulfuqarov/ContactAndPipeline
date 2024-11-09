@@ -120,6 +120,7 @@ const Context = ({ children }) => {
       setsuccesPopaps(true)
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data}`)
     }
   }
   const [idLeads, setidLeads] = useState();
