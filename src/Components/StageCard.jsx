@@ -3,12 +3,13 @@ import React from "react";
 import { ContextCrm } from "../ContextCrm/ContextCrm";
 import AddLeads from "./AddLeads";
 import { toast } from "react-toastify";
+import UpdateLeads from "./UpdateLeads";
 
 const StageCard = ({ Stage, number }) => {
 
   const buttonRef = useRef(null)
 
-  const { handleEditStage, handleDeleteStage, newLeadsListShow, setnewLeadsListShow } = useContext(ContextCrm);
+  const { handleEditStage, handleDeleteStage, newLeadsListShow, setnewLeadsListShow, updateLeadsShow, setupdateLeadsShow } = useContext(ContextCrm);
 
   const [ShowChangeCategroy, setShowChangeCategroy] = useState(false);
   const toggleChangeCategroy = () => {
@@ -31,6 +32,10 @@ const StageCard = ({ Stage, number }) => {
 
   const [showAddLeads, setshowAddLeads] = useState(false);
   const toggleAddLeads = () => {
+    if (updateLeadsShow) {
+      setupdateLeadsShow(false)
+      return
+    }
     setshowAddLeads(!showAddLeads);
     setnewLeadsListShow(false)
   };
@@ -139,7 +144,15 @@ const StageCard = ({ Stage, number }) => {
                 showAddLeads ? <i className="text-red-500 text-[17px] fa-solid fa-xmark"></i> : <i className="text-[17px] fa-solid fa-plus"></i>
               }
             </button>
-          </div> : ''
+          </div> : <button
+            ref={buttonRef}
+            onClick={toggleAddLeads}
+            className="inline-flex items-center gap-2.5 relative"
+          >
+            {
+              showAddLeads || updateLeadsShow ? <i className="text-red-500 text-[17px] fa-solid fa-xmark"></i> : <i className="text-[17px] fa-solid fa-plus"></i>
+            }
+          </button>
         }
       </div>
       <div className="flex items-center justify-between w-full relative">
@@ -160,6 +173,9 @@ const StageCard = ({ Stage, number }) => {
         </div>
       </div>
       {showAddLeads && <AddLeads buttonRef={buttonRef} showAddLeads={showAddLeads} setshowAddLeads={setshowAddLeads} StageId={Stage.id} />}
+      {updateLeadsShow && number === 0 &&
+        <UpdateLeads buttonRef={buttonRef}   />
+      }
     </div>
   );
 };

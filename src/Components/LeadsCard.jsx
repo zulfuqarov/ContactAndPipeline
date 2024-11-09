@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ContextCrm } from "../ContextCrm/ContextCrm";
 
 const LeadsCard = ({ Leads }) => {
-  const { leadColor } = useContext(ContextCrm)
+  const { leadColor, handleUpdateLeadsShow } = useContext(ContextCrm)
   // const getRandomColor = () => {
   //   return buttonColors[Math.floor(Math.random() * buttonColors.length)];
   // };
@@ -17,10 +17,19 @@ const LeadsCard = ({ Leads }) => {
   return (
     <div className="flex flex-col gap-3 p-4 bg-white border border-gray-300 rounded-md">
       <div className="flex w-86 gap-20">
-        <div className="flex flex-col gap-2 w-48">
+        <div className="flex flex-col w-full gap-2 ">
           <div className="flex flex-col gap-1">
-            <div className="font-medium text-main-text-color text-base">
-              {Leads.customer.name} {Leads.customer.surname}
+            <div className="font-medium text-main-text-color text-base flex justify-between">
+              <p> {Leads.customer.name} {Leads.customer.surname}</p>
+              {
+                Leads.lead.stage_Id === "74e5b9fd-676a-4962-87a1-26e64d6cb5b3" ?
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleUpdateLeadsShow(Leads)
+                    }}
+                    className="hover:text-slate-400 transition-all"><i className="fa-solid fa-pen "></i></button> : ''
+              }
             </div>
             <div className="font-normal text-blue-700 text-base">
               Green Vision Studios
