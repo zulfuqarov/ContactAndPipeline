@@ -48,6 +48,7 @@ const ContactUploadEditModal = () => {
     contactsData,
     setIsUploadDeleteModal
   } = useContext(ContactContext);
+console.log(editUploadContact);
 
   const {
     register,
@@ -60,9 +61,10 @@ const ContactUploadEditModal = () => {
 
   useEffect(() => {
     if (editUploadContact) {
+      
       setValue("fullName", `${editUploadContact.name} ${editUploadContact.surname}`);
       setValue("email", editUploadContact.email);
-      setValue("phone", editUploadContact.phoneNumber);
+      setValue("phoneNumber", editUploadContact.phoneNumber);
       setValue("company", editUploadContact.company);
       setValue("department", editUploadContact.department);
       setValue("position", editUploadContact.position);
@@ -78,46 +80,59 @@ const ContactUploadEditModal = () => {
   );
 
   const onSubmit = (data) => {
+    const parts = data.fullName.trim().split(" ");
+    if (parts.length < 2) {
+      toast.error("Please enter both first and last name.");
+      return;
+    }
+  
+    const name = parts[0];
+    const surname = parts.slice(1).join(" "); 
+  
     const newUpload = {
       id: editUploadContact ? editUploadContact.id : Date.now(),
       ...data,
+      name: name,      
+      surname: surname
     };
-    const updatedContacts = uploadContacts.map((contact) =>
-      contact.id === newUpload.id ? newUpload : contact
-    );
-    const isNameExist = contactsData.some(
-      (contact) =>
-        `${contact.name} ${contact.surname}` === newUpload.fullName && contact.id !== newUpload.id
-    );
+  
+    // Check if email already exists
     const isEmailExist = contactsData.some(
       (contact) =>
         contact.email === newUpload.email && contact.id !== newUpload.id
     );
-    const parts=data.fullName.trim().split(" ");
-    if(parts.length<2){
-      toast.error("Please enter both first and last name.");
-      return;
-    }
-
+    
     if (isEmailExist) {
       toast.error("This email already exists in another contact!");
       return;
     }
+  
+    // Prepare updated contacts list
+    const updatedContacts = uploadContacts.map((contact) =>
+      contact.id === newUpload.id ? newUpload : contact
+    );
+  
+    // If editing an existing contact, update it
     if (editUploadContact) {
       updateUploadContact(newUpload);
       toast.success("Upload updated successfully!");
       setUploadContacts(updatedContacts);
       setIsOpenUploadEditModal(false);
     }
-
+  
     reset();
   };
+  
 
+  const deleteBtnClick=()=>{
+    setIsOpenUploadEditModal(false)
+    setIsUploadDeleteModal(true)
+  }
   if (!isOpenUploadEditModal) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-500 bg-opacity-10 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-[40%] p-6 relative">
+      <div className="bg-white rounded-lg  w-full max-w-[40%] p-6 relative">
         <div className="flex items-start">
           <div className="w-full">
             <div>
@@ -146,7 +161,7 @@ const ContactUploadEditModal = () => {
         >
           {/* Input Fields */}
           <InputField
-            id="name"
+            id="fullName"
             label="Full Name"
             type="text"
             register={register}
@@ -173,7 +188,7 @@ const ContactUploadEditModal = () => {
             register={register}
             errors={errors}
             required
-            pattern={/^[^\s@]+@[^\s@]+\.(com|net|org)$/i}
+            pattern={/^[^\s@]+@[^\s@]+\.(com|net|org|ru|edu|gov|info|io|co|us|uk|biz|cn|de|fr)$/i}
             patternErrorMsg="Please enter a valid email address."
             placeholder="e.g. example@gmail.com"
           />
@@ -196,7 +211,7 @@ const ContactUploadEditModal = () => {
             required
             pattern={/^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/}
             patternErrorMsg="Please enter a valid phone number."
-            placeholder="e.g. (+994)70 211 45 32"
+            placeholder="e.g. +994702114532"
           />
           <InputField
             id="position"
@@ -211,7 +226,7 @@ const ContactUploadEditModal = () => {
         <div className="flex justify-between items-center w-full">
           <div>
             {editUploadContact && (
-              <button onClick={() => setIsUploadDeleteModal(true)} className="bg-red-500 text-white rounded-md px-4 py-2">
+              <button onClick={() =>deleteBtnClick()} className="bg-red-500 text-white rounded-md px-4 py-2">
                 Delete
               </button>
             )}

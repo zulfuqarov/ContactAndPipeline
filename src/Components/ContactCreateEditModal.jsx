@@ -156,9 +156,9 @@ const ContactCreateEditModal = () => {
                   </p>
                 </div>
                 <div className="flex items-center justify-between mt-3">
-                  <div className="w-[15rem] overflow-auto">
+                  <div className="w-[16rem] overflow-auto">
                     <p className="font-semibold text-[1.5rem]">
-                      {editContact.name}
+                      {editContact.name} {editContact.surname}
                     </p>
                     <p>{editContact.email}</p>
                   </div>
@@ -242,7 +242,7 @@ const ContactCreateEditModal = () => {
             register={register}
             errors={errors}
             required
-            pattern={/^[^\s@]+@[^\s@]+\.(com|net|org)$/i}
+            pattern={/^[^\s@]+@[^\s@]+\.(com|net|org|ru|edu|gov|info|io|co|us|uk|biz|cn|de|fr)$/i}
             patternErrorMsg="Please enter a valid email address."
             placeholder="e.g. example@gmail.com"
           />
@@ -266,7 +266,7 @@ const ContactCreateEditModal = () => {
               /^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/
             }
             patternErrorMsg="Please enter a valid phone number."
-            placeholder="e.g. (+994)70 211 45 32"
+            placeholder="e.g. +994702114532"
           />
           <InputField
             id="position"

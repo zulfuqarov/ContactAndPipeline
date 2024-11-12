@@ -22,7 +22,7 @@ const ContextContact = ({ children }) => {
   const [editUploadContact, setEditUploadContact] = useState([]);
   const [loading, setLoading] = useState(false);
   console.log(selectedContacts);
-  
+
   const [newTransferToCustomersState, setnewTransferToCustomersState] =
     useState();
   useEffect(() => {
@@ -54,6 +54,8 @@ const ContextContact = ({ children }) => {
     });
     const storedUploadContacts = localStorage.getItem("uploadContacts");
     if (storedUploadContacts) {
+      console.log(storedUploadContacts);
+      
       setUploadContacts(JSON.parse(storedUploadContacts));
     }
   }, [newTransferToCustomersState]);
@@ -91,10 +93,10 @@ const ContextContact = ({ children }) => {
         company: data.company,
         department: data.department,
         position: data.position,
-        createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
+        createdByUserId: JSON.parse(localStorage.getItem("userId")).value,
       });
       console.log(response.data);
-      
+
       const newContact = {
         ...response.data,
         color: getRandomColor(),
@@ -107,7 +109,7 @@ const ContextContact = ({ children }) => {
   };
   const updateContact = async (contact) => {
     try {
-      const url = `${newApiUrl}Post/CustomerD`; 
+      const url = `${newApiUrl}Post/CustomerD`;
       const response = await axios.put(url, {
         id: contact.id,
         name: contact.name,
@@ -117,7 +119,7 @@ const ContextContact = ({ children }) => {
         company: contact.company,
         department: contact.department,
         position: contact.position,
-        createdByUserId: JSON.parse(localStorage.getItem('userId')).value,
+        createdByUserId: JSON.parse(localStorage.getItem("userId")).value,
       });
       if (response.status === 200) {
         const updatedContacts = contactsData.map((item) =>
@@ -131,7 +133,7 @@ const ContextContact = ({ children }) => {
       console.error("Error updating contact:", error);
       toast.error(
         "Failed to update contact: " +
-        (error.response?.statusText || "Unknown error")
+          (error.response?.statusText || "Unknown error")
       );
     }
   };
@@ -217,18 +219,28 @@ const ContextContact = ({ children }) => {
         `${newApiUrl}Customers/TempCustomersGET`
       );
       localStorage.setItem("uploadContacts", JSON.stringify(response.data));
+      
       setUploadContacts(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const [updateContactState, setupdateContactState] = useState();
+  const [updateContactState, setUpdateContactState] = useState();
+
   const updateUploadContact = (updatedData) => {
+    console.log("Received updatedData:", updatedData);
+
+    // Remove the fullName reference, as updatedData already has name and surname separately
+    if (!updatedData || !updatedData.name || !updatedData.surname) {
+      console.error("Error: updatedData, name, or surname is missing.");
+      return; // Exit early if updatedData, name, or surname is undefined
+    }
+
     axios
       .put(`${newApiUrl}Customers/UpdateTempCustomer/${updatedData.id}`, {
         id: updatedData.id,
-        name: updatedData.name,
-        surname: updatedData.surname,
+        name: updatedData.name, // Use updatedData.name directly
+        surname: updatedData.surname, // Use updatedData.surname directly
         phoneNumber: updatedData.phoneNumber,
         email: updatedData.email,
         company: updatedData.company,
@@ -236,14 +248,20 @@ const ContextContact = ({ children }) => {
         position: updatedData.position,
       })
       .then((response) => {
-        console.log(response);
+        console.log("Response:", response);
+        setUpdateContactState(response.data);
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error(
+          "Error updating contact:",
+          error.response?.data || error.message
+        );
+      });
   };
 
   const newTransferToCustomers = async () => {
     const isDataValid = uploadContacts.every((contact) => {
-      const isEmailValid = /^[^\s@]+@[^\s@]+\.(com|net|org)$/i.test(
+      const isEmailValid = /^[^\s@]+@[^\s@]+\.(com|net|org|ru|edu|gov|info|io|co|us|uk|biz|cn|de|fr)$/i.test(
         contact.email
       );
       const isPhoneValid =
@@ -260,7 +278,7 @@ const ContextContact = ({ children }) => {
         contact.surname.trim() !== "" &&
         contact.company.trim() !== "" &&
         contact.department.trim() !== "" &&
-        contact.p
+        contact.phoneNumber
       );
     });
 
@@ -270,7 +288,9 @@ const ContextContact = ({ children }) => {
     }
     axios
       .get(
-        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=${JSON.parse(localStorage.getItem('userId')).value}`
+        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=${
+          JSON.parse(localStorage.getItem("userId")).value
+        }`
       )
       .then((response) => {
         toast.success("Yuklendi");
@@ -320,7 +340,7 @@ const ContextContact = ({ children }) => {
     probability: 0,
     expectedClosingDate: "2024-11-02T16:16:58.716Z",
     stageId: "9d02a814-9b9a-4bcc-a065-8996390a6308",
-    userId: JSON.parse(localStorage.getItem('userId'))?.value || null,
+    userId: JSON.parse(localStorage.getItem("userId"))?.value || null,
   };
   const addToLead = async (customerIds) => {
     if (customerIds.length === 0) {
@@ -328,29 +348,34 @@ const ContextContact = ({ children }) => {
       return;
     }
     const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
-    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&") + "&userid=2"; 
+    const queryParams =
+      customerIds.map((id) => `Ids=${id}`).join("&") + "&userid=2";
     const url = `${baseUrl}?${queryParams}`;
-    
+
     try {
-      const response = await axios.post(url, {}, { 
-        headers: {
-          "Accept": "*/*", 
-          "Content-Type": "application/json-patch+json",
-        },
-      });
+      const response = await axios.post(
+        url,
+        {},
+        {
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json-patch+json",
+          },
+        }
+      );
       toast.success("Customer successfully added!");
       console.log("Response:", response.data);
     } catch (error) {
       toast.error(
         "An error occurred: " +
-        (error.response ? error.response.data.message : error.message)
+          (error.response ? error.response.data.message : error.message)
       );
       console.error(
         "Error:",
         error.response ? error.response.data : error.message
       );
     }
-  }
+  };
   return (
     <ContactContext.Provider
       value={{

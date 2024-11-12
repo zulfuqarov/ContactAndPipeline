@@ -21,7 +21,7 @@ const UploadFile = () => {
     setEditUploadContact,
     setIsUploadDeleteModal,
     addAllContacts,
-    newTransferToCustomers
+    newTransferToCustomers,
   } = useContext(ContactContext);
 
   useEffect(() => {
@@ -31,6 +31,18 @@ const UploadFile = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if(uploadContacts){
+      if (uploadContacts.length <= 0) {
+        const timer = setTimeout(() => {
+          navigate("/Contacts");
+        }, 1000); 
+  
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [uploadContacts, navigate]);
+
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
   };
@@ -38,9 +50,17 @@ const UploadFile = () => {
   const handleMouseLeave = () => {
     setHoveredIndex(null);
   };
+  const validateEmail = (email) => {
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    return /^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/.test(
+      phoneNumber
+    );
+  };
 
   const handleEdit = (contact) => {
-
     const updateEditFormData = {
       id: contact.id,
       name: contact.name,
@@ -56,8 +76,6 @@ const UploadFile = () => {
     setEditUploadContact(updateEditFormData);
     setIsOpenUploadEditModal(true);
   };
-
-
 
   return (
     <div className="p-6 w-full">
@@ -187,7 +205,15 @@ const UploadFile = () => {
                     )}
                   </td>
                   <td className="py-2 px-4">
-                    {contact.phone || contact.phoneNumber || (
+                    {contact.phone || contact.phoneNumber ? (
+                      /^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/.test(
+                        contact.phone || contact.phoneNumber
+                      ) ? (
+                        contact.phone || contact.phoneNumber
+                      ) : (
+                        <span className="text-red-500">Invalid Format</span>
+                      )
+                    ) : (
                       <span className="text-red-500">Not Provided</span>
                     )}
                   </td>
@@ -220,18 +246,22 @@ const UploadFile = () => {
                           : "text-red-500"
                       }
                     >
-                      {contact.name &&
-                      contact.email &&
-                      (contact.phone || contact.phoneNumber) &&
-                      contact.company &&
-                      contact.department &&
-                      contact.position ? (
-                        <div className="w-[1rem] h-[1rem] bg-green-500">
-                        </div>
-                      ) : (
-                        <div className="w-[1rem] h-[1rem] bg-red-500">
-                        </div>
-                      )}
+                      <td className="py-2 px-4 flex justify-center items-center">
+                        {contact.name &&
+                        contact.email &&
+                        validateEmail(contact.email) && // Email validation
+                        (contact.phone || contact.phoneNumber) &&
+                        validatePhoneNumber(
+                          contact.phone || contact.phoneNumber
+                        ) && // Phone validation
+                        contact.company &&
+                        contact.department &&
+                        contact.position ? (
+                          <div className="w-[1rem] h-[1rem] bg-green-500"></div>
+                        ) : (
+                          <div className="w-[1rem] h-[1rem] bg-red-500 "></div>
+                        )}
+                      </td>
                     </span>
                   </td>
                 </tr>

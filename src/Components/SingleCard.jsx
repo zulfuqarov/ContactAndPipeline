@@ -49,7 +49,7 @@ const SingleCard = ({ data }) => {
         </div>
         {/* User Info */}
         <div className="flex flex-col">
-          <h4 className="font-bold text-[1.2rem]">{data.name}</h4>
+          <h4 className="font-bold text-[1.2rem]">{data.name} {data.surname}</h4>
           <p className="text-gray-900">{data.company}</p>
           <p className="text-gray-400">{data.email}</p>
           <p className="text-gray-400">{formattedDate}</p>

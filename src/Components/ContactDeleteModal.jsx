@@ -1,25 +1,35 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContactContext } from "../context-conact/ContextContact";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ContactDeleteModal = () => {
   const { isOpendeleteContact, setIsOpendeleteContact ,editContact,
-    deleteContact,setEditContact,setIsOpenCreateModal
+    deleteContact,setEditContact,setIsOpenCreateModal,editUploadContact,setEditUploadContact,uploadContacts
   } =
     useContext(ContactContext);
-
+    const navigate = useNavigate();
     const handleDelete = () => {
       if (editContact) {
         deleteContact(editContact.id);
-        setEditContact(null); 
-        setIsOpendeleteContact(false)
-        setIsOpenCreateModal(false);
-        setIsOpendeleteContact(false)        
+        setEditContact(null);
+      } else if (editUploadContact) {
+        deleteContact(editUploadContact.id);
+        setEditUploadContact(null);
+        setIsDelete(true)
       }
+  
+      setIsOpendeleteContact(false);
+      setIsOpenCreateModal(false);
+      navigate("/Contacts"); // Navigate after closing the modals
     };
+
+   
+   
+  
   return (
     isOpendeleteContact && (
-      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-[1000]">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-[10000]">
         <div className="bg-white py-10 rounded-lg shadow-lg w-[21rem] space-y-4 text-center">
           <div className="mx-auto w-3/4">
             <div className="w-full h-16  flex items-center justify-center mb-4">
