@@ -15,7 +15,9 @@ const ComplatePopaps = () => {
 
         succesPopaps ?
 
-            <div className='w-full h-full fixed z-50 flex justify-center items-center'>
+            <div className='w-full h-full fixed z-[9999] flex justify-center items-center'
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            >
                 <div className='text-center animate-fall'>
                     <img src={ComplateLogo} alt="" />
                     <div className='bg-[#FFFFFF] p-4 rounded-lg shadow-lg'>

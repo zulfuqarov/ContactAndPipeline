@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Context from "./ContextCrm/ContextCrm";
-import { Route, Routes, useLocation ,Navigate } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import Pipeline from "./Pages/Pipeline";
 import Navbar from "./Components/Navbar";
 import { ToastContainer } from "react-toastify";
@@ -24,13 +24,11 @@ function App() {
   const noNavbarRoutes = ["/", "/Login", "/Register", "/Forget-Password", "/Change-Password"]
   const hideNavbar = noNavbarRoutes.includes(location.pathname);
 
-
-
   return (
     <>
       <ContextUser>
-        <Context>
-          <ContextContact>
+        <ContextContact>
+          <Context>
             < ToastContainer />
             {hideNavbar ? null : <ComplatePopaps />}
             {hideNavbar ? null : <Navbar />}
@@ -50,8 +48,8 @@ function App() {
               <Route path="/Upload-File" element={<UploadFile />} />
 
             </Routes>
-          </ContextContact>
-        </Context>
+          </Context>
+        </ContextContact>
       </ContextUser>
     </>
   );

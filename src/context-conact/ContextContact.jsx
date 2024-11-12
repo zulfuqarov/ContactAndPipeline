@@ -342,12 +342,14 @@ const ContextContact = ({ children }) => {
     stageId: "9d02a814-9b9a-4bcc-a065-8996390a6308",
     userId: JSON.parse(localStorage.getItem("userId"))?.value || null,
   };
+  const [addLeadsToPipeline, setaddLeadsToPipeline] = useState([])
   const addToLead = async (customerIds) => {
     if (customerIds.length === 0) {
       toast.info("No customers have been selected.");
       return;
     }
     const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
+<<<<<<< HEAD
     const queryParams =
       customerIds.map((id) => `Ids=${id}`).join("&") + "&userid=2";
     const url = `${baseUrl}?${queryParams}`;
@@ -363,8 +365,21 @@ const ContextContact = ({ children }) => {
           },
         }
       );
+=======
+    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&") + `&userid=${JSON.parse(localStorage.getItem('userId')).value}`;
+    const url = `${baseUrl}?${queryParams}`;
+
+    try {
+      const response = await axios.post(url, {}, {
+        headers: {
+          "Accept": "*/*",
+          "Content-Type": "application/json-patch+json",
+        },
+      });
+>>>>>>> e062be30d9bacba2ae6ba8d2e8457aa8da2e909f
       toast.success("Customer successfully added!");
       console.log("Response:", response.data);
+      setaddLeadsToPipeline([...addLeadsToPipeline, ...customerIds])
     } catch (error) {
       toast.error(
         "An error occurred: " +
@@ -417,6 +432,10 @@ const ContextContact = ({ children }) => {
         setUploadContacts,
         setIsUploadDeleteModal,
         isUploadDeleteModal,
+
+
+        // addLeadsToPipeline
+        addLeadsToPipeline
       }}
     >
       {children}

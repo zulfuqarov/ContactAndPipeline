@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ContextUserData } from "./ContextUser";
+import { ContactContext } from "../context-conact/ContextContact";
 export const ContextCrm = createContext();
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -9,6 +10,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const Context = ({ children }) => {
 
   const { userIdToken } = useContext(ContextUserData)
+  const { addLeadsToPipeline } = useContext(ContactContext)
 
   const [succesPopaps, setsuccesPopaps] = useState(false)
 
@@ -110,6 +112,17 @@ const Context = ({ children }) => {
       console.log(error);
     }
   };
+  const [editLeads, seteditLeads] = useState();
+  const handleEditLeads = async (lead) => {
+    try {
+      const response = await axios.put(`${apiUrl}/api/Lead_Stage_History`, lead);
+      seteditLeads(lead);
+      setsuccesPopaps(true)
+    } catch (error) {
+      console.log(error);
+      toast.error(`${error.response.data}`)
+    }
+  }
   const [idLeads, setidLeads] = useState();
   const handleGetIdLeads = async (id) => {
     try {
@@ -156,6 +169,12 @@ const Context = ({ children }) => {
       setsearchLeadsProduct([]);
     }
   };
+  const [updateLeadsShow, setupdateLeadsShow] = useState(false)
+  const [updateLeadsData, setupdateLeadsData] = useState()
+  const handleUpdateLeadsShow = (Leads) => {
+    setupdateLeadsShow(!updateLeadsShow)
+    setupdateLeadsData(Leads)
+  }
   // const [swapStage, setswapStage] = useState()
   // const handleswapStage = async (draggedStageId, targetStageId) => {
   //   try {
@@ -208,7 +227,7 @@ const Context = ({ children }) => {
     if (userIdToken.token !== null && userIdToken.userId !== null) {
       getLeads();
     }
-  }, [newLeads, changeLeadsStage, userIdToken]);
+  }, [newLeads, changeLeadsStage, userIdToken, editLeads, addLeadsToPipeline]);
 
 
 
@@ -280,7 +299,12 @@ const Context = ({ children }) => {
         userData,
         newLeadsListFunc,
         setnewLeadsListShow,
-        newLeadsListShow
+        newLeadsListShow,
+        handleUpdateLeadsShow,
+        setupdateLeadsShow,
+        updateLeadsShow,
+        updateLeadsData,
+        handleEditLeads
       }}
     >
       {children}
