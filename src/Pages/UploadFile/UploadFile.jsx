@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { BsDownload, BsPersonVcard } from "react-icons/bs";
-import { FaArrowLeft, FaCheckSquare, FaWindowClose } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { IoEllipsisHorizontalCircleOutline, IoPeople } from "react-icons/io5";
 import { LuBuilding2, LuContact2 } from "react-icons/lu";
 import { MdOutlineMailOutline, MdOutlinePhoneInTalk } from "react-icons/md";
@@ -8,7 +8,6 @@ import { TfiReload } from "react-icons/tfi";
 import { Link, useNavigate } from "react-router-dom";
 import { ContactContext } from "../../context-conact/ContextContact";
 import UploadEditModal from "../../Components/ContactUploadEditModal";
-import { toast } from "react-toastify"; // Toast üçün
 import UploadDeleteModal from "../../Components/UploadDeleteModal";
 
 const UploadFile = () => {

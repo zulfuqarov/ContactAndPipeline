@@ -3,6 +3,9 @@ import { ContactContext } from "../context-conact/ContextContact";
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import ContactDeleteModal from "./ContactDeleteModal";
+import UploadDeleteModal from "./UploadDeleteModal";
+import UploadNewDeleteModal from "./UploadNewDeleteModal";
 
 const InputField = ({
   id,
@@ -46,9 +49,9 @@ const ContactUploadEditModal = () => {
     updateUploadContact,
     setUploadContacts,
     contactsData,
-    setIsUploadDeleteModal
+    setIsNewUploadDeleteModal
   } = useContext(ContactContext);
-console.log(editUploadContact);
+ 
 
   const {
     register,
@@ -61,7 +64,6 @@ console.log(editUploadContact);
 
   useEffect(() => {
     if (editUploadContact) {
-      
       setValue("fullName", `${editUploadContact.name} ${editUploadContact.surname}`);
       setValue("email", editUploadContact.email);
       setValue("phoneNumber", editUploadContact.phoneNumber);
@@ -125,8 +127,7 @@ console.log(editUploadContact);
   
 
   const deleteBtnClick=()=>{
-    setIsOpenUploadEditModal(false)
-    setIsUploadDeleteModal(true)
+    setIsNewUploadDeleteModal(true)
   }
   if (!isOpenUploadEditModal) return null;
 
@@ -159,7 +160,6 @@ console.log(editUploadContact);
           onSubmit={handleSubmit(onSubmit)}
           className="py-3 grid grid-cols-2 gap-8"
         >
-          {/* Input Fields */}
           <InputField
             id="fullName"
             label="Full Name"
@@ -226,10 +226,12 @@ console.log(editUploadContact);
         <div className="flex justify-between items-center w-full">
           <div>
             {editUploadContact && (
-              <button onClick={() =>deleteBtnClick()} className="bg-red-500 text-white rounded-md px-4 py-2">
+              <button onClick={() =>{deleteBtnClick()}} className="bg-red-500 text-white rounded-md px-4 py-2">
                 Delete
               </button>
             )}
+            <UploadNewDeleteModal/>
+       
           </div>
           <div className="flex space-x-2">
             <button onClick={()=>setIsOpenUploadEditModal(false)} className="bg-gray-400 text-white rounded-md px-4 py-2">

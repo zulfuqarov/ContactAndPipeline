@@ -1,8 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { Router, useActionData, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const apiUrl = import.meta.env.VITE_API_URL;
 const newApiUrl = "http://141.98.112.193:5000/api/";
 export const ContactContext = createContext();
 const ContextContact = ({ children }) => {
@@ -21,6 +20,9 @@ const ContextContact = ({ children }) => {
   const [uploadContacts, setUploadContacts] = useState(null);
   const [editUploadContact, setEditUploadContact] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [addNewContact, setaddNewContact] = useState();
+  const [isNewUploadDeleteModal,setIsNewUploadDeleteModal]=useState(false);
+  
   console.log(selectedContacts);
 
   const [newTransferToCustomersState, setnewTransferToCustomersState] =
@@ -54,11 +56,9 @@ const ContextContact = ({ children }) => {
     });
     const storedUploadContacts = localStorage.getItem("uploadContacts");
     if (storedUploadContacts) {
-      console.log(storedUploadContacts);
-      
       setUploadContacts(JSON.parse(storedUploadContacts));
     }
-  }, [newTransferToCustomersState]);
+  }, [newTransferToCustomersState,addNewContact]);
   function getRandomColor() {
     const colors = [
       "bg-red-500",
@@ -83,6 +83,7 @@ const ContextContact = ({ children }) => {
     setContactsData(updatedContacts);
     localStorage.setItem("contacts", JSON.stringify(updatedContacts));
   };
+
   const addContact = async (data) => {
     try {
       const response = await axios.post(`${newApiUrl}Post/CustomerD`, {
@@ -95,13 +96,7 @@ const ContextContact = ({ children }) => {
         position: data.position,
         createdByUserId: JSON.parse(localStorage.getItem("userId")).value,
       });
-      console.log(response.data);
-
-      const newContact = {
-        ...response.data,
-        color: getRandomColor(),
-      };
-      setContactsData((prevContacts) => [...prevContacts, newContact]);
+      setaddNewContact(response.data);
     } catch (error) {
       console.error("Error adding contact:", error);
       toast.error("Faild to add contact");
@@ -219,7 +214,7 @@ const ContextContact = ({ children }) => {
         `${newApiUrl}Customers/TempCustomersGET`
       );
       localStorage.setItem("uploadContacts", JSON.stringify(response.data));
-      
+
       setUploadContacts(response.data);
     } catch (error) {
       console.log(error);
@@ -230,17 +225,16 @@ const ContextContact = ({ children }) => {
   const updateUploadContact = (updatedData) => {
     console.log("Received updatedData:", updatedData);
 
-    // Remove the fullName reference, as updatedData already has name and surname separately
     if (!updatedData || !updatedData.name || !updatedData.surname) {
       console.error("Error: updatedData, name, or surname is missing.");
-      return; // Exit early if updatedData, name, or surname is undefined
+      return; 
     }
 
     axios
       .put(`${newApiUrl}Customers/UpdateTempCustomer/${updatedData.id}`, {
         id: updatedData.id,
-        name: updatedData.name, // Use updatedData.name directly
-        surname: updatedData.surname, // Use updatedData.surname directly
+        name: updatedData.name, 
+        surname: updatedData.surname, 
         phoneNumber: updatedData.phoneNumber,
         email: updatedData.email,
         company: updatedData.company,
@@ -261,9 +255,10 @@ const ContextContact = ({ children }) => {
 
   const newTransferToCustomers = async () => {
     const isDataValid = uploadContacts.every((contact) => {
-      const isEmailValid = /^[^\s@]+@[^\s@]+\.(com|net|org|ru|edu|gov|info|io|co|us|uk|biz|cn|de|fr)$/i.test(
-        contact.email
-      );
+      const isEmailValid =
+        /^[^\s@]+@[^\s@]+\.(com|net|org|ru|edu|gov|info|io|co|us|uk|biz|cn|de|fr)$/i.test(
+          contact.email
+        );
       const isPhoneValid =
         /^\+994\s?(50|51|55|70|77|60|10|40|41)\s?\d{3}\s?\d{2}\s?\d{2}$/.test(
           contact.phoneNumber
@@ -293,7 +288,7 @@ const ContextContact = ({ children }) => {
         }`
       )
       .then((response) => {
-        toast.success("Yuklendi");
+        toast.success("Upload Successful");
         uploadContacts.forEach((item) => {
           if (response) {
             const newContact = {
@@ -302,7 +297,7 @@ const ContextContact = ({ children }) => {
             };
             setContactsData((prevContacts) => [...prevContacts, newContact]);
           }
-          console.log(contactsData);
+        
           setnewTransferToCustomersState(uploadContacts);
           navigate("/Contacts");
         });
@@ -334,24 +329,17 @@ const ContextContact = ({ children }) => {
         console.error("Error deleting contact:", error);
       });
   };
-  const postData = {
-    productId: "9fcb649d-6b85-42c8-8946-bc8487452619",
-    expectedRevenue: 0,
-    probability: 0,
-    expectedClosingDate: "2024-11-02T16:16:58.716Z",
-    stageId: "9d02a814-9b9a-4bcc-a065-8996390a6308",
-    userId: JSON.parse(localStorage.getItem("userId"))?.value || null,
-  };
-  const [addLeadsToPipeline, setaddLeadsToPipeline] = useState([])
+
+  const [addLeadsToPipeline, setaddLeadsToPipeline] = useState([]);
   const addToLead = async (customerIds) => {
     if (customerIds.length === 0) {
       toast.info("No customers have been selected.");
       return;
     }
     const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
-<<<<<<< HEAD
     const queryParams =
-      customerIds.map((id) => `Ids=${id}`).join("&") + "&userid=2";
+      customerIds.map((id) => `Ids=${id}`).join("&") +
+      `&userid=${JSON.parse(localStorage.getItem("userId")).value}`;
     const url = `${baseUrl}?${queryParams}`;
 
     try {
@@ -365,21 +353,10 @@ const ContextContact = ({ children }) => {
           },
         }
       );
-=======
-    const queryParams = customerIds.map((id) => `Ids=${id}`).join("&") + `&userid=${JSON.parse(localStorage.getItem('userId')).value}`;
-    const url = `${baseUrl}?${queryParams}`;
 
-    try {
-      const response = await axios.post(url, {}, {
-        headers: {
-          "Accept": "*/*",
-          "Content-Type": "application/json-patch+json",
-        },
-      });
->>>>>>> e062be30d9bacba2ae6ba8d2e8457aa8da2e909f
       toast.success("Customer successfully added!");
       console.log("Response:", response.data);
-      setaddLeadsToPipeline([...addLeadsToPipeline, ...customerIds])
+      setaddLeadsToPipeline([...addLeadsToPipeline, ...customerIds]);
     } catch (error) {
       toast.error(
         "An error occurred: " +
@@ -432,10 +409,11 @@ const ContextContact = ({ children }) => {
         setUploadContacts,
         setIsUploadDeleteModal,
         isUploadDeleteModal,
-
+        setIsNewUploadDeleteModal,
+        isNewUploadDeleteModal,
 
         // addLeadsToPipeline
-        addLeadsToPipeline
+        addLeadsToPipeline,
       }}
     >
       {children}
