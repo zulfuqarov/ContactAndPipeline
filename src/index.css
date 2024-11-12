@@ -1,52 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 .fonstDashBoard {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .text-transition {
-    transition: background-color 0.5s ease, width 0.5s ease;
-    /* Geçiş süreleri ve efektleri */
+  transition: background-color 0.5s ease, width 0.5s ease;
+  /* Geçiş süreleri ve efektleri */
 }
 
 body {
-    background-color: #F9FAFB;
+  background-color: #f9fafb;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 @keyframes fall {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
 
-    50% {
-        opacity: 1;
-    }
+  50% {
+    opacity: 1;
+  }
 
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .animate-fall {
-    animation: fall 1s ease-out forwards;
+  animation: fall 1s ease-out forwards;
 }
 
 .writing-mode-vertical {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    height: 100px;
-    text-align: end;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  height: 100px;
+  text-align: end;
 }
 
 .clip-pentagon {
-    clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
+  clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
 }

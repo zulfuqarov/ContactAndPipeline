@@ -28,11 +28,13 @@ const LeadsCard = ({ Leads }) => {
                       e.preventDefault();
                       handleUpdateLeadsShow(Leads)
                     }}
-                    className="hover:text-slate-400 transition-all"><i className="fa-solid fa-pen "></i></button> : ''
+                    className="hover:text-black text-slate-400 transition-all"><i className="fa-solid fa-pen "></i></button> : ''
               }
             </div>
             <div className="font-normal text-blue-700 text-base">
-              Green Vision Studios
+              {
+                Leads.customer.company
+              }
             </div>
           </div>
           <div className="font-normal text-gray-500 text-base">

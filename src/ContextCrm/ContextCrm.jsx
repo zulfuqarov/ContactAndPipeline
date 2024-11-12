@@ -110,6 +110,7 @@ const Context = ({ children }) => {
       setsuccesPopaps(true)
     } catch (error) {
       console.log(error);
+      toast.error(`${error.response.data}`);
     }
   };
   const [editLeads, seteditLeads] = useState();
@@ -221,7 +222,7 @@ const Context = ({ children }) => {
     if (userIdToken.token !== null && userIdToken.userId !== null) {
       getStage();
     }
-  }, [addStage, editStage, deleteStage, newLeads, changeLeadsStage, userIdToken]);
+  }, [addStage, editStage, deleteStage, newLeads, changeLeadsStage, userIdToken,editLeads]);
 
   useEffect(() => {
     if (userIdToken.token !== null && userIdToken.userId !== null) {

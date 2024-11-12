@@ -28,7 +28,8 @@ const Pipeline = () => {
 
     if (type === "Leads") {
       const newLeads = leads.map((oneMap) =>
-        oneMap.lead.id === draggableId && oneMap.lead.userId === JSON.parse(localStorage.getItem('userId')).value
+        oneMap.lead.id === draggableId && oneMap.lead.userId === JSON.parse(localStorage.getItem('userId')).value &&
+          oneMap.lead_Stag_History.expectedClosingDate !== "2024-11-01T00:00:00"
           ? {
             ...oneMap,
             lead: { ...oneMap.lead, stage_Id: destination.droppableId },

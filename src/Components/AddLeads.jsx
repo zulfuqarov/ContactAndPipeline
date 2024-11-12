@@ -58,6 +58,7 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
   const [error, seterror] = useState({})
   const leadsValidations = () => {
     const validation = {}
+
     if (!Object.keys(contact).length) {
       validation.contact = "Please select a contact"
     }
@@ -67,8 +68,14 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
     if (!newLeads.expectedRevenue) {
       validation.expectedRevenue = "Expected Revenue should be a positive number"
     }
+    if (newLeads.expectedRevenue && newLeads.expectedRevenue.length > 12) {
+      validation.expectedRevenue = "Limit the number of digits in the Expected Revenue field to 12"
+    }
     if (!newLeads.expectedClosingDate) {
       validation.expectedClosingDate = "Expected Closing Date should be a positive number"
+    }
+    if (newLeads.expectedClosingDate && new Date() > new Date(newLeads.expectedClosingDate)) {
+      validation.expectedClosingDate = "Past dates are not allowed";
     }
     return validation
   }
@@ -180,16 +187,17 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
           <div className="flex items-center w-full">
             <input
               className={`w-full h-[36px] border rounded p-2 text-sm focus:outline-none focus:ring-0 transition
-  ${newLeads.expectedRevenue ? '' : error.expectedRevenue ? 'border-red-500 border' : ''}
+  ${newLeads.expectedRevenue ? error.expectedRevenue ? 'border-red-500 border' : '' : error.expectedRevenue ? 'border-red-500 border' : ''}
   `}
               type="number"
+              onWheel={(e) => e.target.blur()} // Fare tekerleği ile kaydırmayı devre dışı bırakır
               placeholder="$0.00"
               name="expectedRevenue"
               onChange={onChangeNewLeads}
               value={newLeads.expectedRevenue || ""}
             />
           </div>
-          <p className="text-[12px] text-red-500">{newLeads.expectedRevenue ? '' : error.expectedRevenue ? error.expectedRevenue : ''}</p>
+          <p className="text-[12px] text-red-500">{newLeads.expectedRevenue ? error.expectedRevenue ? error.expectedRevenue : '' : error.expectedRevenue}</p>
         </div>
         <div className="flex flex-col w-[100%] items-start justify-center gap-3">
           <p className="w-full text-[16px]  font-medium text-main-text-color">
@@ -218,7 +226,7 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
           </p>
           <input
             className={`w-full h-[36px] border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 transition
-              ${newLeads.expectedClosingDate ? '' : error.expectedClosingDate ? 'border-red-500' : ''}
+              ${newLeads.expectedClosingDate ? error.expectedClosingDate ? 'border-red-500 border' : '' : error.expectedClosingDate ? 'border-red-500 border' : ''}
               `}
             type="date"
             placeholder="e.g. (mm/dd/yyyy)"
@@ -226,8 +234,9 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
             onChange={onChangeNewLeads}
             value={newLeads.expectedClosingDate || ""}
           />
-          <p className="text-[12px] text-red-500">{newLeads.expectedClosingDate ? '' : error.expectedClosingDate ? error.expectedClosingDate : ''}</p>
+          <p className="text-[12px] text-red-500">{newLeads.expectedClosingDate ? error.expectedClosingDate ? error.expectedClosingDate : '' : error.expectedClosingDate ? error.expectedClosingDate : ''}</p>
         </div>
+
       </div>
       <div className="flex items-center justify-between w-full">
         <button
@@ -237,14 +246,7 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
         </button>
         <button
           onClick={() => {
-            if (
-              contact.id &&
-              product.id &&
-              (newLeads.expectedClosingDate?.trim() || "").length > 0 &&
-              (newLeads.probability?.trim() || "").length > 0 &&
-              (newLeads.expectedRevenue?.trim() || "").length > 0
-            ) {
-
+            if (!Object.keys(leadsValidations()).length) {
               const updatedLeads = {
                 ...newLeads,
                 customerId: contact.id,
