@@ -2,7 +2,7 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import {useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const newApiUrl = "http://141.98.112.193:5000/api/";
+const newApiUrl = "https://api.lead2b.online/api/";
 export const ContactContext = createContext();
 const ContextContact = ({ children }) => {
   const [isOpenCreateModal, setIsOpenCreateModal] = useState(false);
@@ -283,7 +283,7 @@ const ContextContact = ({ children }) => {
     }
     axios
       .get(
-        `http://141.98.112.193:5000/api/Customers/newTransferToCustomers?userId=${
+        `${newApiUrl}Customers/newTransferToCustomers?userId=${
           JSON.parse(localStorage.getItem("userId")).value
         }`
       )
@@ -336,7 +336,7 @@ const ContextContact = ({ children }) => {
       toast.info("No customers have been selected.");
       return;
     }
-    const baseUrl = "http://141.98.112.193:5000/api/Customers/AddToLead";
+    const baseUrl = `${newApiUrl}Customers/AddToLead`;
     const queryParams =
       customerIds.map((id) => `Ids=${id}`).join("&") +
       `&userid=${JSON.parse(localStorage.getItem("userId")).value}`;
