@@ -245,7 +245,7 @@ const Context = ({ children }) => {
 
   useEffect(() => {
     const savedLeadColors = localStorage.getItem("leadColors");
-    const leadsProductNameColor = savedLeadColors ? JSON.parse(savedLeadColors) : { ...leadColor }; // Mevcut renkleri koru
+    const leadsProductNameColor = savedLeadColors ? JSON.parse(savedLeadColors) : { ...leadColor }; 
 
     leads.forEach((lead) => {
       const productName = lead.product.name;
