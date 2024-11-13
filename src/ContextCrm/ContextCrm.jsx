@@ -96,6 +96,7 @@ const Context = ({ children }) => {
       setleads(response.data);
     } catch (error) {
       console.log(error);
+      setleads([]);
     }
   };
   const [newLeads, setnewLeads] = useState();
@@ -122,6 +123,17 @@ const Context = ({ children }) => {
     } catch (error) {
       console.log(error);
       toast.error(`${error.response.data}`)
+    }
+  }
+  const [deleteLeads, setdeleteLeads] = useState();
+  const handleDeleteLeads = async (id, userId) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/api/Leads/${id}?userId=${userId}`);
+      setdeleteLeads(id);
+      toast.success(`${response.data.message}`)
+    } catch (error) {
+      console.log(error);
+      toast.error(`${error.response.data}`);
     }
   }
   const [idLeads, setidLeads] = useState();
@@ -222,13 +234,13 @@ const Context = ({ children }) => {
     if (userIdToken.token !== null && userIdToken.userId !== null) {
       getStage();
     }
-  }, [addStage, editStage, deleteStage, newLeads, changeLeadsStage, userIdToken,editLeads]);
+  }, [addStage, editStage, deleteStage, newLeads, changeLeadsStage, userIdToken, editLeads, deleteLeads]);
 
   useEffect(() => {
     if (userIdToken.token !== null && userIdToken.userId !== null) {
       getLeads();
     }
-  }, [newLeads, changeLeadsStage, userIdToken, editLeads, addLeadsToPipeline]);
+  }, [newLeads, changeLeadsStage, userIdToken, editLeads, addLeadsToPipeline, deleteLeads]);
 
 
 
@@ -245,7 +257,7 @@ const Context = ({ children }) => {
 
   useEffect(() => {
     const savedLeadColors = localStorage.getItem("leadColors");
-    const leadsProductNameColor = savedLeadColors ? JSON.parse(savedLeadColors) : { ...leadColor }; 
+    const leadsProductNameColor = savedLeadColors ? JSON.parse(savedLeadColors) : { ...leadColor };
 
     leads.forEach((lead) => {
       const productName = lead.product.name;
@@ -305,7 +317,8 @@ const Context = ({ children }) => {
         setupdateLeadsShow,
         updateLeadsShow,
         updateLeadsData,
-        handleEditLeads
+        handleEditLeads,
+        handleDeleteLeads
       }}
     >
       {children}

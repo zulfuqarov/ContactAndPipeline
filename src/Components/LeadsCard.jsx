@@ -3,7 +3,7 @@ import { ContextCrm } from "../ContextCrm/ContextCrm";
 import { ContextUserData } from "../ContextCrm/ContextUser";
 
 const LeadsCard = ({ Leads }) => {
-  const { leadColor, handleUpdateLeadsShow } = useContext(ContextCrm)
+  const { leadColor, handleUpdateLeadsShow, handleDeleteLeads } = useContext(ContextCrm)
 
   const { userIdToken } = useContext(ContextUserData)
 
@@ -32,11 +32,22 @@ const LeadsCard = ({ Leads }) => {
                     {
                       editShow &&
                       <div className="absolute top-[25px] right-[0px] w-[120px] h-auto p-1 rounded-lg shadow-lg flex flex-col space-y-1 items-center border border-slate-400">
-                        <button className="w-full text-red-500   rounded-md focus:outline-none">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleDeleteLeads(Leads.lead.id, userIdToken.userId.value)
+                          }}
+                          className="w-full text-red-500   rounded-md focus:outline-none">
                           Delete
                         </button>
                         <hr className="w-full" />
-                        <button className="w-full   text-black rounded-md focus:outline-none">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleUpdateLeadsShow(Leads)
+                            seteditShow(false)
+                          }}
+                          className="w-full   text-black rounded-md focus:outline-none">
                           Edit
                         </button>
                       </div>

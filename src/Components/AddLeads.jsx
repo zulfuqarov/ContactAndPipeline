@@ -190,7 +190,7 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
   ${newLeads.expectedRevenue ? error.expectedRevenue ? 'border-red-500 border' : '' : error.expectedRevenue ? 'border-red-500 border' : ''}
   `}
               type="number"
-              onWheel={(e) => e.target.blur()} // Fare tekerleği ile kaydırmayı devre dışı bırakır
+              onWheel={(e) => e.target.blur()} 
               placeholder="$0.00"
               name="expectedRevenue"
               onChange={onChangeNewLeads}

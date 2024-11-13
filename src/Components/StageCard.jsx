@@ -4,12 +4,15 @@ import { ContextCrm } from "../ContextCrm/ContextCrm";
 import AddLeads from "./AddLeads";
 import { toast } from "react-toastify";
 import UpdateLeads from "./UpdateLeads";
+import { ContextUserData } from "../ContextCrm/ContextUser";
 
 const StageCard = ({ Stage, number }) => {
 
   const buttonRef = useRef(null)
 
-  const { handleEditStage, handleDeleteStage, newLeadsListShow, setnewLeadsListShow, updateLeadsShow, setupdateLeadsShow } = useContext(ContextCrm);
+  const { handleEditStage, handleDeleteStage, newLeadsListShow, setnewLeadsListShow, updateLeadsShow, setupdateLeadsShow, updateLeadsData } = useContext(ContextCrm);
+
+  const { userIdToken } = useContext(ContextUserData)
 
   const [ShowChangeCategroy, setShowChangeCategroy] = useState(false);
   const toggleChangeCategroy = () => {
@@ -150,7 +153,7 @@ const StageCard = ({ Stage, number }) => {
             className="inline-flex items-center gap-2.5 relative"
           >
             {
-              showAddLeads || updateLeadsShow ? <i className="text-red-500 text-[17px] fa-solid fa-xmark"></i> : <i className="text-[17px] fa-solid fa-plus"></i>
+              showAddLeads || updateLeadsShow && Stage.id === updateLeadsData.lead.stage_Id ? <i className="text-red-500 text-[17px] fa-solid fa-xmark"></i> : <i className="text-[17px] fa-solid fa-plus"></i>
             }
           </button>
         }
@@ -173,8 +176,12 @@ const StageCard = ({ Stage, number }) => {
         </div>
       </div>
       {showAddLeads && <AddLeads buttonRef={buttonRef} showAddLeads={showAddLeads} setshowAddLeads={setshowAddLeads} StageId={Stage.id} />}
-      {updateLeadsShow && number === 0 &&
-        <UpdateLeads buttonRef={buttonRef}   />
+      {
+        userIdToken.userId.value === 9 ?
+          updateLeadsShow && Stage.id === updateLeadsData.lead.stage_Id &&
+          < UpdateLeads buttonRef={buttonRef} /> :
+          updateLeadsShow && number === 0 &&
+          <UpdateLeads buttonRef={buttonRef} />
       }
     </div>
   );

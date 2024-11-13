@@ -203,6 +203,7 @@ const UpdateLeads = ({ buttonRef }) => {
                             className={`w-full h-[36px] border rounded p-2 text-sm focus:outline-none focus:ring-0 transition
                                 ${newLeads.expectedRevenue ? error.expectedRevenue ? 'border-red-500 border' : '' : error.expectedRevenue ? 'border-red-500 border' : ''}
                                 `}
+                            onWheel={(e) => e.target.blur()} 
                             type="number"
                             placeholder="$0.00"
                             name="expectedRevenue"
