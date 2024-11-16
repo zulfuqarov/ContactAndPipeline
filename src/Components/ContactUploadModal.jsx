@@ -3,7 +3,7 @@ import { ContactContext } from "../context-conact/ContextContact";
 import { useContext } from "react";
 import { BsDownload } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-
+import uploadImage from "../../src/pages/Contacts/Image/no-contact.png"
 const ContactUploadModal = () => {
   const navigate = useNavigate();
   const {
@@ -21,7 +21,7 @@ const ContactUploadModal = () => {
             <div className="text-center flex justify-center">
               <img
                 className="w-[20rem]"
-                src="../../src/pages/Contacts/Image/no-contact.png"
+                src={uploadImage}
                 alt="No Contact"
               />
             </div>
@@ -42,7 +42,7 @@ const ContactUploadModal = () => {
             Excel files are recommended as formatting is automatic.
           </p>
           <p className="py-3">Need help?</p>
-          <a href="../../../public/files/Template.xlsx">
+          <a href="/files/Template.xlsx">
           <div className="flex justify-center items-center pb-4 text-[#1971F6] gap-2">
             <BsDownload />
             <p>Import template for customers</p>

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ContactContext } from "../context-conact/ContextContact";
 import { toast } from "react-toastify";
-
+import deleteImage from "../../src/assets/img/delete-img.png";
 const UploadDeleteModal = ({uploadContact}) => {
   const { isUploadDeleteModal, setIsUploadDeleteModal ,deleteUploadContact} =
     useContext(ContactContext);
@@ -14,13 +14,15 @@ const UploadDeleteModal = ({uploadContact}) => {
         toast.error("Could not delete data!");
       }
     };
+
+    
   return (
     isUploadDeleteModal && (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50 z-[10020000]">
         <div className="bg-white py-10 rounded-lg shadow-lg w-[21rem] space-y-4 text-center">
           <div className="mx-auto w-3/4">
             <div className="w-full h-16  flex items-center justify-center mb-4">
-              <img src="../../src/assets/img/delete-img.png" alt="" />
+              <img src={deleteImage} alt="" />
             </div>
             <h3 className="text-[1.4rem] font-semibold my-2 pt-3">
               Are you sure you want to delete this contact?

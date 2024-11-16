@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ContactContext } from "../context-conact/ContextContact";
-
+import successImage from "../../src/assets/img/create-sucss.png";
 const ContactCreateSuccesModal = () => {
   const {createContactSuccs, setCreateContactSuccs} = useContext(ContactContext);
 
@@ -10,7 +10,7 @@ const ContactCreateSuccesModal = () => {
         <div className="bg-white p-4 py-10 rounded-lg shadow-lg flex flex-col items-center space-y-4 text-center">
           <div className="mx-auto w-3/4">
             <div className="w-full h-16  flex items-center justify-center">
-              <img src="../../src/assets/img/create-sucss.png" alt="" />
+              <img src={successImage} alt="" />
             </div>
             <h3 className="text-lg font-semibold text-[#39A645] mt-5">
               Contact Created
