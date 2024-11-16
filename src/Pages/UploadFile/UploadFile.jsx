@@ -232,7 +232,6 @@ const UploadFile = () => {
                     )}
                   </td>
                   <td className="py-2 px-4 flex justify-center items-center">
-                    {/* Hər bir sahənin doluluğuna əsaslanaraq ikonları göstəririk */}
                     <span
                       className={
                         contact.name &&

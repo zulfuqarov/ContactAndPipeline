@@ -210,14 +210,17 @@ const ContextContact = ({ children }) => {
   }, []);
   const getTempCustomer = async () => {
     try {
-      const response = await axios.get(
-        `${newApiUrl}Customers/TempCustomersGET`
-      );
-      localStorage.setItem("uploadContacts", JSON.stringify(response.data));
-
-      setUploadContacts(response.data);
+      const response = await axios.get(`${newApiUrl}Customers/TempCustomersGET`);
+      const updatedContacts = response.data.map(contact => {
+        let { phoneNumber } = contact;
+        phoneNumber = phoneNumber.startsWith('+994') ? phoneNumber : `+994${phoneNumber}`;
+        return { ...contact, phoneNumber };  
+      });
+  
+      localStorage.setItem("uploadContacts", JSON.stringify(updatedContacts));
+      setUploadContacts(updatedContacts);
     } catch (error) {
-      console.log(error);
+      console.error("Xəta məlumatı:", error);
     }
   };
   const [updateContactState, setUpdateContactState] = useState();
