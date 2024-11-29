@@ -199,7 +199,7 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
           </div>
           <p className="text-[12px] text-red-500">{newLeads.expectedRevenue ? error.expectedRevenue ? error.expectedRevenue : '' : error.expectedRevenue}</p>
         </div>
-        <div className="flex flex-col w-[100%] items-start justify-center gap-3">
+        {/* <div className="flex flex-col w-[100%] items-start justify-center gap-3">
           <p className="w-full text-[16px]  font-medium text-main-text-color">
             Probability
           </p>
@@ -219,7 +219,7 @@ const AddLeads = ({ StageId, setshowAddLeads, showAddLeads, buttonRef }) => {
               </span>
             </div>{" "}
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-col w-full items-start justify-center gap-2">
           <p className="w-full text-[16px]  font-medium text-main-text-color">
             Expected Closing Date

@@ -253,6 +253,7 @@ const Context = ({ children }) => {
     "bg-[#6A8BF7]",
     "bg-[#FF5733]",
     "bg-[#33C3FF]",
+    "bg-[#c7c7ff]"
   ];
 
   useEffect(() => {

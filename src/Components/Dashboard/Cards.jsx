@@ -9,9 +9,9 @@ import CountUp from 'react-countup';
 
 const Cards = ({ Probablity, InformationWonLost }) => {
     return (
-        <div className="flex justify-evenly">
+        <div className="grid grid-cols-4 gap-4 px-[30px]">
 
-            <div className="bg-white w-[252px] h-[172px]  p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
+            <div className="bg-white w-[100%] h-[172px]  p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
                 <div className='w-full flex flex-col justify-evenly h-full'>
                     <div className='flex justify-between items-center w-full'>
                         <p className="text-[14px] sm:text-[16px] text-[#7C838B]">Won</p>
@@ -25,7 +25,7 @@ const Cards = ({ Probablity, InformationWonLost }) => {
                 </div>
             </div>
 
-            <div className="bg-white w-[252px]   h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
+            <div className="bg-white w-[100%]   h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
                 <div className='w-full flex flex-col justify-evenly h-full'>
                     <div className='flex justify-between w-full items-center'>
                         <p className="text-[14px] sm:text-[16px] text-[#7C838B]">Lost</p>
@@ -40,7 +40,7 @@ const Cards = ({ Probablity, InformationWonLost }) => {
 
             </div>
 
-            <div className="bg-white w-[252px]  h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
+            <div className="bg-white w-[100%]  h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
                 <div className='w-full flex flex-col justify-evenly h-full'>
                     <div className='flex justify-between w-full items-center'>
                         <p className="text-[14px] sm:text-[16px] text-[#7C838B]">Product sold</p>
@@ -55,7 +55,7 @@ const Cards = ({ Probablity, InformationWonLost }) => {
 
             </div>
 
-            <div className="bg-white w-[252px]   h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
+            {/* <div className="bg-white w-[252px]   h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex justify-between items-center">
                 <div className='w-full flex flex-col justify-evenly h-full'>
                     <div className='flex justify-between w-full items-center'>
                         <p className="text-[14px] sm:text-[16px] text-[#7C838B]">Probability</p>
@@ -67,9 +67,9 @@ const Cards = ({ Probablity, InformationWonLost }) => {
                         <p className="text-[24px] sm:text-[28px] lg:text-[32px] font-semibold"><CountUp start={0} end={Probablity} duration={2.75} />%</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="bg-white w-[252px]   h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex flex-col justify-center ">
+            <div className="bg-white w-[100%]   h-[172px] p-3 sm:p-4 rounded-lg shadow-md flex flex-col justify-center ">
                 <p className='text-[26px]'>Conversion rate</p>
                 <p className='text-[26px] text-[#1971F6] pt-[20px]'>{InformationWonLost && InformationWonLost.conversion_Rate ? <CountUp start={0} end={InformationWonLost.conversion_Rate} duration={2.75} /> : '0'}%</p>
             </div>

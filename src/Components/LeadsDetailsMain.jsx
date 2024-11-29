@@ -52,7 +52,7 @@ const LeadsDetailsMain = ({ idLeads }) => {
             {idLeads && idLeads.customer.surname}
           </p>
         </div>
-        <div className="flex  justify-between pt-[30px] w-[90%]">
+        <div className="flex  justify-between pt-[30px] w-[68%]">
           <div>
             <p className="font-inter text-[18px] font-medium leading-[24.2px] text-left pb-[20px]">
               Expected revenue
@@ -61,14 +61,14 @@ const LeadsDetailsMain = ({ idLeads }) => {
               $ {idLeads && idLeads.lead.expectedRevenue}
             </p>
           </div>
-          <div>
+          {/* <div>
             <p className="font-inter text-[18px] font-medium leading-[24.2px] text-left pb-[20px]">
               Probability
             </p>
             <p className="font-inter text-[17px] font-normal leading-[24.2px] text-left">
               at {idLeads && idLeads.lead_Stag_History.probability} %
             </p>
-          </div>
+          </div> */}
           <div>
             <p className="font-inter text-[18px] font-medium leading-[24.2px] text-left pb-[20px]">
               Product
