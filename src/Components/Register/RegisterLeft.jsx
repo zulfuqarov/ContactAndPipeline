@@ -37,7 +37,7 @@ const RegisterLeft = () => {
         }
 
         // Phone validasyonu 
-        const azerbaijanPhoneRegex = /^\+994(50|55|70|77|050|055|070|077)\d{7}$/;
+        const azerbaijanPhoneRegex = /^\+994(50|55|70|77|51|99|099|010|10|051|050|055|070|077)\d{7}$/;
 
         if (!registerInput.phone || !azerbaijanPhoneRegex.test(registerInput.phone)) {
             newErrors.phone = 'Please enter a valid Azerbaijan phone number';
